@@ -20,7 +20,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 public class StartActivity extends AppCompatActivity {
 
     private TextView mAuthorText;
@@ -33,7 +32,6 @@ public class StartActivity extends AppCompatActivity {
 
         mAuthorText = (TextView)findViewById(R.id.author);
         mStartImage = (ImageView)findViewById(R.id.image);
-
         new StartPageDownload().execute();
     }
 
