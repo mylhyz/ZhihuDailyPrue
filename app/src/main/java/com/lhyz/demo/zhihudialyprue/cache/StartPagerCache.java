@@ -23,14 +23,18 @@ public class StartPagerCache {
         Debug.i(mRootCacheDir.getAbsolutePath());
     }
 
-    public synchronized void put(String key,Bitmap bitmap){
-        File cache = new File(mRootCacheDir.getAbsolutePath()+"/"+key+".jpg");
-        if(cache.exists()){
-            boolean delete = cache.delete();
+    public synchronized void clear(){
+        int i=0;
+        for(File file : mRootCacheDir.listFiles()){
+            boolean delete = file.delete();
             if(delete){
-                Debug.i("Clear");
+                Debug.i("Clear "+i++);
             }
         }
+    }
+
+    public synchronized void put(String key,Bitmap bitmap){
+        File cache = new File(mRootCacheDir.getAbsolutePath()+"/"+key+".jpg");
         try {
             OutputStream out = new FileOutputStream(cache);
             if(bitmap.compress(Bitmap.CompressFormat.JPEG,80,out)){
@@ -44,7 +48,8 @@ public class StartPagerCache {
     }
 
     public synchronized void put(String key,String author){
-        File cache = new File(mRootCacheDir.getAbsolutePath()+key+".txt");
+        clear();
+        File cache = new File(mRootCacheDir.getAbsolutePath()+"/"+key+".txt");
         try {
             OutputStream out = new FileOutputStream(cache);
             out.write(author.getBytes());
@@ -75,7 +80,7 @@ public class StartPagerCache {
     }
 
     public synchronized String getAuthor(String key){
-        File cache = new File(mRootCacheDir.getAbsolutePath()+key+".txt");
+        File cache = new File(mRootCacheDir.getAbsolutePath()+"/"+key+".txt");
         if(!cache.exists()){
             Debug.i("Has no Author Cache");
             return null;
