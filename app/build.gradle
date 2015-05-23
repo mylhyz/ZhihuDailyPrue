@@ -22,7 +22,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.android.support:support-v4:22.1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile files('libs/volley.jar')
+//    compile 'com.android.support:support-v4:22.1.1'
+//    compile 'com.squareup.picasso:picasso:2.5.2'
+//    compile files('libs/volley.jar')
 }

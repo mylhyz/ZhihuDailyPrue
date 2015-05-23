@@ -1,10 +1,14 @@
 package com.lhyz.demo.zhihudialyprue.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +36,29 @@ public class StartActivity extends AppCompatActivity {
 
         mAuthorText = (TextView)findViewById(R.id.author);
         mStartImage = (ImageView)findViewById(R.id.image);
+
+        Animation animation = AnimationUtils.loadAnimation(this,R.anim.anim_start_page);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mAuthorText.setVisibility(View.INVISIBLE);
+                finish();
+                Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+
+        mStartImage.setAnimation(animation);
+
         new StartPageDownload().execute();
     }
 
