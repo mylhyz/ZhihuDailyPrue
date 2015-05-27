@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.cache.StartPagerCache;
+import com.lhyz.demo.zhihudialyprue.log.Debug;
 import com.lhyz.demo.zhihudialyprue.network.BaseHttp;
 import com.lhyz.demo.zhihudialyprue.util.DateUtil;
 import com.lhyz.demo.zhihudialyprue.util.JSONUtil;
@@ -47,7 +48,7 @@ public class StartActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 mAuthorText.setVisibility(View.INVISIBLE);
                 finish();
-                Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 
@@ -58,7 +59,7 @@ public class StartActivity extends AppCompatActivity {
 
         mStartImage.setAnimation(animation);
 
-        new StartPageDownload().execute();
+        new StartPageLoading().execute();
     }
 
     public static class StartPager{
@@ -82,7 +83,44 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
-    private class StartPageDownload extends AsyncTask<Void,Void,StartPager>{
+    /**
+     * 单纯用来下载图片并缓存的Task
+     */
+    private class StartPageDownload extends AsyncTask<Void,Void,Void>{
+
+        StartPagerCache cache = new StartPagerCache(getApplicationContext().getCacheDir());
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Bitmap bitmap;
+            try{
+                String data = BaseHttp.get(URLUtil.getInstance(getApplicationContext()).getStartImageURL());
+                JSONUtil.getInstance().with(data);
+                cache.put(DateUtil.getToady(), JSONUtil.getInstance().getAuthor());
+
+                URL url = new URL(JSONUtil.getInstance().getBitmapURL());
+                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                    bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+                    cache.put(DateUtil.getToady(), bitmap);
+                }else{
+                    throw new IOException("Network Error - response code: " + connection.getResponseCode());
+                }
+                connection.disconnect();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
+
+    /**
+     * 寻找是否启动页图片可用的Task
+     */
+    private class StartPageLoading extends AsyncTask<Void,Void,StartPager>{
 
         StartPagerCache cache = new StartPagerCache(getApplicationContext().getCacheDir());
 
@@ -95,33 +133,27 @@ public class StartActivity extends AppCompatActivity {
             if((author = cache.getAuthor(DateUtil.getToady()))!=null && (bitmap = cache.getBitmap(DateUtil.getToady()))!= null ){
                 pager.setAuthor(author);
                 pager.setBitmap(bitmap);
-                return pager;
-            }
-
-            try{
-                String data = BaseHttp.get(URLUtil.getInstance(getApplicationContext()).getStartImageURL());
-                JSONUtil.getInstance().with(data);
-                cache.put(DateUtil.getToady(), JSONUtil.getInstance().getAuthor());
-                pager.setAuthor(JSONUtil.getInstance().getAuthor());
-
-                URL url = new URL(JSONUtil.getInstance().getBitmapURL());
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-                if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                    bitmap = BitmapFactory.decodeStream(connection.getInputStream());
-                    cache.put(DateUtil.getToady(),bitmap);
-                    pager.setBitmap(bitmap);
-                }else{
-                    throw new IOException("Network Error - response code: " + connection.getResponseCode());
+            }else{
+                Debug.i("NO CACHE");
+                pager.setAuthor(getResources().getString(R.string.init_author));
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                //设置此参数可以使得图像不会被分配内存
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeResource(getResources(), R.drawable.init_image,options);
+                int scale = (int)(options.outHeight / (float)getResources().getDisplayMetrics().heightPixels);
+                if(scale<0){
+                    scale = 1;
                 }
-                connection.disconnect();
-            }catch (IOException e){
-                e.printStackTrace();
-                return null;
+                options.inSampleSize = scale;
+                options.inJustDecodeBounds = false;
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.init_image,options);
+                pager.setBitmap(bitmap);
+                Debug.i("SET DONE");
+                new StartPageDownload().execute();
+                Debug.i("AFTER TASK");
             }
-
-            return pager;
+            Debug.i("RETURN");
+            return  pager;
         }
 
         @Override
