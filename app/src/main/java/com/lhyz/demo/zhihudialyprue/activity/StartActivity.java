@@ -14,13 +14,12 @@ import android.widget.TextView;
 
 import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.cache.StartPagerCache;
+import com.lhyz.demo.zhihudialyprue.network.BaseHttp;
 import com.lhyz.demo.zhihudialyprue.util.DateUtil;
 import com.lhyz.demo.zhihudialyprue.util.JSONUtil;
 import com.lhyz.demo.zhihudialyprue.util.URLUtil;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -32,7 +31,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.start_activity);
 
         mAuthorText = (TextView)findViewById(R.id.author);
         mStartImage = (ImageView)findViewById(R.id.image);
@@ -100,28 +99,13 @@ public class StartActivity extends AppCompatActivity {
             }
 
             try{
-                URL url = new URL(URLUtil.getInstance(getApplicationContext()).getStartImageURL());
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-                if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String line;
-                    StringBuilder builder = new StringBuilder();
-                    while((line = reader.readLine())!=null){
-                        builder.append(line);
-                    }
-                    reader.close();
-                    JSONUtil.getInstance().with(builder.toString());
-                    cache.put(DateUtil.getToady(),JSONUtil.getInstance().getAuthor());
-                    pager.setAuthor(JSONUtil.getInstance().getAuthor());
-                }else{
-                    throw new IOException("Network Error - response code: " + connection.getResponseCode());
-                }
-                connection.disconnect();
+                String data = BaseHttp.get(URLUtil.getInstance(getApplicationContext()).getStartImageURL());
+                JSONUtil.getInstance().with(data);
+                cache.put(DateUtil.getToady(), JSONUtil.getInstance().getAuthor());
+                pager.setAuthor(JSONUtil.getInstance().getAuthor());
 
-                url = new URL(JSONUtil.getInstance().getBitmapURL());
-                connection = (HttpURLConnection)url.openConnection();
+                URL url = new URL(JSONUtil.getInstance().getBitmapURL());
+                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("User-Agent", "Mozilla/5.0");
                 if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){

@@ -17,7 +17,6 @@ public class JSONUtil {
             instance = new JSONUtil();
         }
         return instance;
-
     }
 
     public String getAuthor(){
