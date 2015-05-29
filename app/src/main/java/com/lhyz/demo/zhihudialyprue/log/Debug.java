@@ -9,4 +9,10 @@ public class Debug {
             Log.i("Debug",msg);
         }
     }
+
+    public static void e(String msg){
+        if(ON){
+            Log.e("Debug Error ",msg);
+        }
+    }
 }

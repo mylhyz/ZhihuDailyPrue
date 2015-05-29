@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.cache.StartPagerCache;
-import com.lhyz.demo.zhihudialyprue.log.Debug;
 import com.lhyz.demo.zhihudialyprue.network.BaseHttp;
+import com.lhyz.demo.zhihudialyprue.task.DownloadThread;
 import com.lhyz.demo.zhihudialyprue.util.DateUtil;
 import com.lhyz.demo.zhihudialyprue.util.JSONUtil;
 import com.lhyz.demo.zhihudialyprue.util.URLUtil;
@@ -42,6 +42,7 @@ public class StartActivity extends AppCompatActivity {
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                new DownloadThread(StartActivity.this).start();
             }
 
             @Override
@@ -134,7 +135,6 @@ public class StartActivity extends AppCompatActivity {
                 pager.setAuthor(author);
                 pager.setBitmap(bitmap);
             }else{
-                Debug.i("NO CACHE");
                 pager.setAuthor(getResources().getString(R.string.init_author));
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 //设置此参数可以使得图像不会被分配内存
@@ -148,11 +148,8 @@ public class StartActivity extends AppCompatActivity {
                 options.inJustDecodeBounds = false;
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.init_image,options);
                 pager.setBitmap(bitmap);
-                Debug.i("SET DONE");
                 new StartPageDownload().execute();
-                Debug.i("AFTER TASK");
             }
-            Debug.i("RETURN");
             return  pager;
         }
 

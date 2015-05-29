@@ -30,6 +30,20 @@ drawable使用体积较小的jpeg图片。
 
 2)由于从drawable编码bitmap速度较慢，采用缩放加载的方式
 
-***)OOM问题暂时没有遇到过，暂时没有经验
+**OOM问题暂时没有遇到过，暂时没有经验**
 
-###5.准备数据异步加载Loader的使用 2015-5-27
+###5.准备数据异步加载工具Loader的使用 2015-5-27
+
+###6.主要UI界面构建完毕 2015-5-29
+
+1）在RecyclerView中实现多类型的视图
+
+2）大体模仿了知乎日报首页的热点新闻效果，暂时没有加入自动切换
+
+3）完成Loader与SwipeRefreshLayout的结合，在RecyclerView的Adapter中为
+两个Adapter简单的刷新数据。
+
+4）重写了下载首页新闻数据的线程，从混合的Callable改成单纯的Thread，
+原因是处理回调数据的时候有未知Bug导致数据无法获取到以至于无法插入数据库。
+
+5）了解Loader的主要使用方式和LoaderManager的基本使用方式

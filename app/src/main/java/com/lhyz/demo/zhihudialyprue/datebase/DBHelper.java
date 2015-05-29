@@ -28,8 +28,8 @@ public class DBHelper extends SQLiteOpenHelper{
                     COLUMN_IMAGES+" VARCHAR(100) NOT NULL,"+
                     COLUMN_MULTIPIC+" VARCHAR(10),"+
                     COLUMN_TYPE+" INTEGER NOT NULL,"+
-                    COLUMN_ID+" INTEGER UNIQUE NOT NULL,"+
-                    COLUMN_GA_PREFIX+" VARCHAR(10) NOT NULL,"+
+                    COLUMN_ID+" INTEGER NOT NULL,"+
+                    COLUMN_GA_PREFIX+" INTEGER UNIQUE NOT NULL,"+
                     COLUMN_TITLE+" VARCHAR(100) NOT NULL" +
                     ")";
 
@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper{
                     COLUMN_IMAGE+" VARCHAR(100) NOT NULL,"+
                     COLUMN_TYPE+" INTEGER NOT NULL,"+
                     COLUMN_ID+" INTEGER UNIQUE NOT NULL,"+
-                    COLUMN_GA_PREFIX+" VARCHAR(10) NOT NULL,"+
+                    COLUMN_GA_PREFIX+" INTEGER UNIQUE NOT NULL,"+
                     COLUMN_TITLE+" VARCHAR(100) NOT NULL" +
                     ")";
 
