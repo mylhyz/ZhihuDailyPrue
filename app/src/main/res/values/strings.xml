@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">ZhihuDialyPrue</string>
+
     <string name="init_author">© 孙冉然</string>
     <string name="demo">Demo</string>
+    <string name="today_news">今日新闻</string>
+    <string name="lklds">LLL</string>
 </resources>

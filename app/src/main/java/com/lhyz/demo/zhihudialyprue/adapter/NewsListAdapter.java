@@ -1,13 +1,13 @@
 package com.lhyz.demo.zhihudialyprue.adapter;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +21,6 @@ import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
 import com.lhyz.demo.zhihudialyprue.datebase.DataSource;
 import com.lhyz.demo.zhihudialyprue.loader.DataLoader;
-import com.lhyz.demo.zhihudialyprue.log.Debug;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,7 +29,8 @@ import java.util.List;
 public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int TYPE_VIEW_PAGER = 0;
-    private static final int TYPE_VIEW_ITEM = 1;
+    private static final int TYPE_VIEW_TITLE = 1;
+    private static final int TYPE_VIEW_ITEM = 2;
 
     private static List<StorySimple> sTodays = new ArrayList<>();
     private static List<StorySimple> sHots = new ArrayList<>();
@@ -39,6 +39,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static FragmentManager sFragmentManager;
     private static LabsPagerAdapter sAdapter;
     private static SwipeRefreshLayout sSwipeRefreshLayout;
+    private static NewsListAdapter instance;
 
     private static boolean mark1 = false;
     private static boolean mark2 = false;
@@ -50,6 +51,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         sSwipeRefreshLayout.setRefreshing(true);
         mark1 = false;
         mark2 = false;
+        instance = this;
     }
 
     /**
@@ -90,6 +92,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    private static class ViewHolder3 extends RecyclerView.ViewHolder{
+
+        public ViewHolder3(View itemView) {
+            super(itemView);
+        }
+    }
+
     /**
      * 根据position返回Item的视图类型
      * @param position 需要实例化Item的位置
@@ -97,11 +106,18 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     @Override
     public int getItemViewType(int position) {
-        if(position == 0){
-            return TYPE_VIEW_PAGER;
-        }else{
-            return TYPE_VIEW_ITEM;
+        int type;
+        switch (position){
+            case 0:
+                type = TYPE_VIEW_PAGER;
+                break;
+            case 1:
+                type = TYPE_VIEW_TITLE;
+                break;
+            default:
+                type = TYPE_VIEW_ITEM;
         }
+        return type;
     }
 
     /**
@@ -117,6 +133,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case TYPE_VIEW_PAGER:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.labs_view_item,parent,false);
                 return new ViewHolder1(v);
+            case TYPE_VIEW_TITLE:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_title,parent,false);
+                return new ViewHolder3(v);
             case TYPE_VIEW_ITEM:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_item,parent,false);
                 return new ViewHolder2(v);
@@ -132,15 +151,15 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(position == 0){
-            ViewHolder1 viewHolder1 = (ViewHolder1)holder;
+        if(position == 0) {
+            ViewHolder1 viewHolder1 = (ViewHolder1) holder;
             sAdapter = new LabsPagerAdapter(sFragmentManager);
             viewHolder1.getViewPager().setAdapter(sAdapter);
-        }else{
+        }else if(position != 1){
             ViewHolder2 viewHolder2 = (ViewHolder2)holder;
-            viewHolder2.getTextView().setText(sTodays.get(position - 1).getTitle());
+            viewHolder2.getTextView().setText(sTodays.get(position - 2).getTitle());
             Picasso.with(sContext)
-                    .load(sTodays.get(position - 1).getImage())
+                    .load(sTodays.get(position - 2).getImage())
                     .fit()
                     .centerCrop()
                     .into(viewHolder2.getImageView());
@@ -153,7 +172,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     @Override
     public int getItemCount() {
-        return sTodays.size()+1;
+        return sTodays.size()+2;
     }
 
     private class LabsPagerAdapter extends FragmentPagerAdapter{
@@ -208,14 +227,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private static class StoryTodayLoader extends DataLoader<List<StorySimple>>{
-
+    private static class StoryTodayLoader extends DataLoader<List<StorySimple>> {
         public StoryTodayLoader(Context context) {
             super(context);
         }
 
         @Override
-        protected List<StorySimple> loadData(){
+        protected List<StorySimple> loadData() {
             mData = DataSource.getInstance(sContext).queryTodays();
             return mData;
         }
@@ -226,7 +244,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private static class StoryHotLoader extends DataLoader<List<StorySimple>>{
+    private static class StoryHotLoader extends DataLoader<List<StorySimple>> {
         public StoryHotLoader(Context context) {
             super(context);
         }
@@ -244,7 +262,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public static class StoryTodaysCallback implements LoaderManager.LoaderCallbacks<List<StorySimple>>{
-
         @Override
         public Loader<List<StorySimple>> onCreateLoader(int id, Bundle args) {
             return new StoryTodayLoader(sContext);
@@ -254,6 +271,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void onLoadFinished(Loader<List<StorySimple>> loader, List<StorySimple> data) {
             sTodays = data;
             mark1 = true;
+            instance.notifyItemRangeChanged(2,sTodays.size());
             if(mark2){
                 sSwipeRefreshLayout.setRefreshing(false);
             }
@@ -261,12 +279,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @Override
         public void onLoaderReset(Loader<List<StorySimple>> loader) {
-//            sTodays = null;
+            //            sTodays = null;
         }
     }
 
     public static class StoryHotsCallback implements LoaderManager.LoaderCallbacks<List<StorySimple>>{
-
         @Override
         public Loader<List<StorySimple>> onCreateLoader(int id, Bundle args) {
             return new StoryHotLoader(sContext);

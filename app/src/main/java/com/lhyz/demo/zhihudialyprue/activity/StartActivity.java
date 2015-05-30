@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.cache.StartPagerCache;
 import com.lhyz.demo.zhihudialyprue.network.BaseHttp;
-import com.lhyz.demo.zhihudialyprue.task.DownloadThread;
 import com.lhyz.demo.zhihudialyprue.util.DateUtil;
 import com.lhyz.demo.zhihudialyprue.util.JSONUtil;
 import com.lhyz.demo.zhihudialyprue.util.URLUtil;
@@ -42,7 +41,7 @@ public class StartActivity extends AppCompatActivity {
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                new DownloadThread(StartActivity.this).start();
+
             }
 
             @Override

@@ -64,8 +64,8 @@ public class DataSource {
 
     /**
      * 插入今日新闻数据,全部代码段都被对象锁锁住，
-     * 因此在执行插入数据期间其他线程不得访问此对象其他方法，
-     * 且由于本
+     * 因此在执行插入数据期间其他线程不得访问此对象其他方法
+     * 使用Application作为Context实例化的单例作为全局都是唯一的单例
      * @param storyTodays 从外部线程传入的数据
      */
     public void insertNewFromToday(List<StoryToday> storyTodays){

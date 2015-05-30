@@ -4,4 +4,7 @@
     <color name="blue2">#ff3232ff</color>
     <color name="blue3">#ff6464ff</color>
     <color name="blue4">#ff9696ff</color>
+
+    <color name="primary_blue">#ff01a1eb</color>
+    <color name="primary_dark">#ff0d47a1</color>
 </resources>
