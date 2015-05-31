@@ -68,19 +68,17 @@ public class DataSource {
      * 使用Application作为Context实例化的单例作为全局都是唯一的单例
      * @param storyTodays 从外部线程传入的数据
      */
-    public void insertNewFromToday(List<StoryToday> storyTodays){
-        synchronized (this) {
-            ContentValues cv = new ContentValues();
-            for (StoryToday story : storyTodays) {
-                cv.put(DBHelper.COLUMN_IMAGES, story.getImages()[0]);
-                cv.put(DBHelper.COLUMN_MULTIPIC, story.getMultipic());
-                cv.put(DBHelper.COLUMN_TYPE, story.getType());
-                cv.put(DBHelper.COLUMN_ID, story.getId());
-                cv.put(DBHelper.COLUMN_GA_PREFIX, story.getGa_prefix());
-                cv.put(DBHelper.COLUMN_TITLE, story.getTitle());
-                database.insert(DBHelper.TABLE_STORY_TODAY_NAME, null, cv);
-                cv.clear();
-            }
+    public void insertNewFromToday(List<StoryToday> storyTodays) {
+        ContentValues cv = new ContentValues();
+        for (StoryToday story : storyTodays) {
+            cv.put(DBHelper.COLUMN_IMAGES, story.getImages()[0]);
+            cv.put(DBHelper.COLUMN_MULTIPIC, story.getMultipic());
+            cv.put(DBHelper.COLUMN_TYPE, story.getType());
+            cv.put(DBHelper.COLUMN_ID, story.getId());
+            cv.put(DBHelper.COLUMN_GA_PREFIX, story.getGa_prefix());
+            cv.put(DBHelper.COLUMN_TITLE, story.getTitle());
+            database.insert(DBHelper.TABLE_STORY_TODAY_NAME, null, cv);
+            cv.clear();
         }
     }
 
@@ -88,18 +86,16 @@ public class DataSource {
      * 插入今日热点数据
      * @param storyHots 从其他线程获取的数据
      */
-    public void insertNewFromHot(List<StoryHot> storyHots){
-        synchronized (this) {
-            ContentValues cv = new ContentValues();
-            for (StoryHot hot : storyHots) {
-                cv.put(DBHelper.COLUMN_IMAGE, hot.getImage());
-                cv.put(DBHelper.COLUMN_TYPE, hot.getType());
-                cv.put(DBHelper.COLUMN_ID, hot.getId());
-                cv.put(DBHelper.COLUMN_GA_PREFIX, hot.getGa_prefix());
-                cv.put(DBHelper.COLUMN_TITLE, hot.getTitle());
-                database.insert(DBHelper.TABLE_STORY_HOT_NAME, null, cv);
-                cv.clear();
-            }
+    public void insertNewFromHot(List<StoryHot> storyHots) {
+        ContentValues cv = new ContentValues();
+        for (StoryHot hot : storyHots) {
+            cv.put(DBHelper.COLUMN_IMAGE, hot.getImage());
+            cv.put(DBHelper.COLUMN_TYPE, hot.getType());
+            cv.put(DBHelper.COLUMN_ID, hot.getId());
+            cv.put(DBHelper.COLUMN_GA_PREFIX, hot.getGa_prefix());
+            cv.put(DBHelper.COLUMN_TITLE, hot.getTitle());
+            database.insert(DBHelper.TABLE_STORY_HOT_NAME, null, cv);
+            cv.clear();
         }
     }
 

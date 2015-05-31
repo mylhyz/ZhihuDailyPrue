@@ -27,6 +27,7 @@ public class StartActivity extends AppCompatActivity {
 
     private TextView mAuthorText;
     private ImageView mStartImage;
+    private Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class StartActivity extends AppCompatActivity {
         mAuthorText = (TextView)findViewById(R.id.author);
         mStartImage = (ImageView)findViewById(R.id.image);
 
-        Animation animation = AnimationUtils.loadAnimation(this,R.anim.anim_start_page);
+        animation = AnimationUtils.loadAnimation(this,R.anim.anim_start_page);
         animation.setRepeatMode(Animation.REVERSE);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -46,6 +47,7 @@ public class StartActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                mStartImage.setVisibility(View.INVISIBLE);
                 mAuthorText.setVisibility(View.INVISIBLE);
                 finish();
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
@@ -56,8 +58,6 @@ public class StartActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-
-        mStartImage.setAnimation(animation);
 
         new StartPageLoading().execute();
     }
@@ -156,6 +156,7 @@ public class StartActivity extends AppCompatActivity {
         protected void onPostExecute(StartPager startPager) {
             mAuthorText.setText(startPager.getAuthor());
             mStartImage.setImageBitmap(startPager.getBitmap());
+            mStartImage.setAnimation(animation);
         }
     }
 }

@@ -47,3 +47,13 @@ drawable使用体积较小的jpeg图片。
 原因是处理回调数据的时候有未知Bug导致数据无法获取到以至于无法插入数据库。
 
 5）了解Loader的主要使用方式和LoaderManager的基本使用方式
+
+###7.重构项目架构，修改API和某些类的使用 2015-5-31
+
+1）解构RecyclerView的Adapter，将原来复杂的类按照必要性重新分离
+
+2）发现FragmentPagerAdapter的问题，暂时无法解决，只能改用FragmentStatePagerAdapter
+
+3）修改了启动页，讲ImageView动画结束后也设置位INVISIBLE
+
+###8.
