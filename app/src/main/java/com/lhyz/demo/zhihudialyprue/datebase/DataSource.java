@@ -34,6 +34,10 @@ public class DataSource {
             DBHelper.COLUMN_GA_PREFIX
     };
 
+    private String[] column_id={
+            DBHelper.COLUMN_ID
+    };
+
     /**
      * 使用这个实例化的方法的好处是必须从Application中创建，
      * 因为此方法的context虽然在不同的Context下被传入的不一，但是因为这是一个单例
@@ -112,6 +116,7 @@ public class DataSource {
         cv.put(DBHelper.COLUMN_SOURCE, detail.getImage_source());
         cv.put(DBHelper.COLUMN_TITLE, detail.getTitle());
         cv.put(DBHelper.COLUMN_ID,detail.getId());
+        cv.put(DBHelper.COLUMN_SHARE_URL,detail.getShare_url());
         cv.put(DBHelper.COLUMN_BODY, detail.getBody());
         database.insert(DBHelper.TABLE_STORY_NAME, null, cv);
     }
@@ -163,5 +168,37 @@ public class DataSource {
         }
         cursor.close();
         return simples;
+    }
+
+    public boolean hasStory(String id){
+        Cursor cursor = database.query(DBHelper.TABLE_STORY_NAME, column_id, DBHelper.COLUMN_ID + " = ? ", new String[]{id}, null, null, null, "1");
+        if(cursor.getCount() == 1){
+            cursor.close();
+            return true;
+        }
+        return false;
+    }
+
+    public StoryDetail getStory(String id){
+        StoryDetail detail = new StoryDetail();
+        Cursor cursor = database.query(DBHelper.TABLE_STORY_NAME, null, DBHelper.COLUMN_ID + " = ? ", new String[]{id}, null, null, null,null);
+
+        int index1 = cursor.getColumnIndex(DBHelper.COLUMN_IMAGE);
+        int index2 = cursor.getColumnIndex(DBHelper.COLUMN_SOURCE);
+        int index3 = cursor.getColumnIndex(DBHelper.COLUMN_TITLE);
+        int index4 = cursor.getColumnIndex(DBHelper.COLUMN_ID);
+        int index5 = cursor.getColumnIndex(DBHelper.COLUMN_SHARE_URL);
+        int index6 = cursor.getColumnIndex(DBHelper.COLUMN_BODY);
+
+        cursor.moveToFirst();
+        detail.setImage(cursor.getString(index1));
+        detail.setImage_source(cursor.getString(index2));
+        detail.setTitle(cursor.getString(index3));
+        detail.setId(cursor.getString(index4));
+        detail.setShare_url(cursor.getString(index5));
+        detail.setBody(cursor.getString(index6));
+
+        cursor.close();
+        return detail;
     }
 }

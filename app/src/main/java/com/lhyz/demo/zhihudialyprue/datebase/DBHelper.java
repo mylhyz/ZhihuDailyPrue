@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper{
 
     private static final String DB_NAME="meta.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     public static final String TABLE_STORY_TODAY_NAME = "story_today";
     public static final String TABLE_STORY_HOT_NAME ="story_hot";
@@ -21,6 +21,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public static final String COLUMN_GA_PREFIX="ga_prefix";
     public static final String COLUMN_TITLE="title";
     public static final String COLUMN_SOURCE = "image_source";
+    public static final String COLUMN_SHARE_URL = "share_url";
     public static final String COLUMN_BODY = "body";
 
 
@@ -53,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper{
                     COLUMN_SOURCE+" VARCHAR(100) NOT NULL,"+
                     COLUMN_TITLE+" VARCHAR(100) NOT NULL,"+
                     COLUMN_ID+" VARCHAR(20) UNIQUE NOT NULL,"+
+                    COLUMN_SHARE_URL+" VARCHAR(100) NOT NULL,"+
                     COLUMN_BODY+" TEXT NOT NULL" +
                     ")";
 

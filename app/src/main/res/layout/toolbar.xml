@@ -5,5 +5,4 @@
     android:layout_height="wrap_content"
     android:maxHeight="?attr/actionBarSize"
     android:background="@color/primary_blue"
-    android:title="@string/lklds"
     xmlns:android="http://schemas.android.com/apk/res/android"/>
