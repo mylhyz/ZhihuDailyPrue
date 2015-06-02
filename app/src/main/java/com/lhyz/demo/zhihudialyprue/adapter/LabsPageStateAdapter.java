@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
 import com.lhyz.demo.zhihudialyprue.fragment.LabsFragment;
-import com.lhyz.demo.zhihudialyprue.log.Debug;
 
 import java.util.List;
 
@@ -23,13 +22,11 @@ public class LabsPageStateAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Debug.i(mHots.get(position).getTitle());
         return LabsFragment.getInstance(mContext, mHots.get(position));
     }
 
     @Override
     public int getCount() {
-        Debug.i("DataSet : "+mHots.size());
         return mHots.size();
     }
 }

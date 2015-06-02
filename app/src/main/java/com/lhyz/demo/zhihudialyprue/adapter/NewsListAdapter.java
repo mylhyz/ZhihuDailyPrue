@@ -1,8 +1,10 @@
 package com.lhyz.demo.zhihudialyprue.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lhyz.demo.zhihudialyprue.R;
+import com.lhyz.demo.zhihudialyprue.activity.ContentActivity;
 import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
 import com.squareup.picasso.Picasso;
 
@@ -23,10 +26,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_VIEW_TITLE = 1;
     private static final int TYPE_VIEW_ITEM = 2;
 
-    private List<StorySimple> mDataTodays = new ArrayList<>();
+    private static List<StorySimple> mDataTodays = new ArrayList<>();
     private List<StorySimple> mDataHots = new ArrayList<>();
 
-    private Context mContext;
+    private static Context mContext;
     private LabsPageStateAdapter mAdapter;
 
     public NewsListAdapter(Context context,FragmentManager fm,List<StorySimple> todays,List<StorySimple> hots) {
@@ -56,11 +59,22 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * 第二个是正常的CardView
      */
     private static class ViewHolder2 extends RecyclerView.ViewHolder{
+        private final CardView mCardView;
         private final TextView mTextView;
         private final ImageView mImageView;
 
         public ViewHolder2(View itemView) {
             super(itemView);
+            mCardView = (CardView)itemView.findViewById(R.id.card_item);
+            mCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    StorySimple item = mDataTodays.get(getAdapterPosition() - 2);
+                    Intent intent = new Intent(mContext, ContentActivity.class);
+                    intent.putExtra(ContentActivity.EXTRA_ID, item.getId());
+                    mContext.startActivity(intent);
+                }
+            });
             mTextView = (TextView)itemView.findViewById(R.id.title);
             mImageView = (ImageView)itemView.findViewById(R.id.images);
         }

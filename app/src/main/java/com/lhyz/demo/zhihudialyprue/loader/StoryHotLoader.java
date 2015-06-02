@@ -7,7 +7,7 @@ import com.lhyz.demo.zhihudialyprue.datebase.DataSource;
 
 import java.util.List;
 
-public class StoryHotLoader extends DataLoader{
+public class StoryHotLoader extends DataLoader<List<StorySimple>>{
 
     public StoryHotLoader(Context context) {
         super(context);

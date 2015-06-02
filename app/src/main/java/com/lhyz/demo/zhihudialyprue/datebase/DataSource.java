@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.lhyz.demo.zhihudialyprue.bean.StoryDetail;
 import com.lhyz.demo.zhihudialyprue.bean.StoryHot;
 import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
 import com.lhyz.demo.zhihudialyprue.bean.StoryToday;
@@ -22,12 +23,14 @@ public class DataSource {
     private String[] allColumns1={
             DBHelper.COLUMN_IMAGE,
             DBHelper.COLUMN_TITLE,
+            DBHelper.COLUMN_ID,
             DBHelper.COLUMN_GA_PREFIX
     };
 
     private String[] allColumns2={
             DBHelper.COLUMN_IMAGES,
             DBHelper.COLUMN_TITLE,
+            DBHelper.COLUMN_ID,
             DBHelper.COLUMN_GA_PREFIX
     };
 
@@ -99,20 +102,37 @@ public class DataSource {
         }
     }
 
+    /**
+     * 插入每条新闻的详细界面
+     * @param detail 点击一个Item之后进入细节页，会缓存得到的数据，然后下次每次进入都会检查是否存在
+     */
+    public void insertNewDetail(StoryDetail detail) {
+        ContentValues cv = new ContentValues();
+        cv.put(DBHelper.COLUMN_IMAGE, detail.getImage());
+        cv.put(DBHelper.COLUMN_SOURCE, detail.getImage_source());
+        cv.put(DBHelper.COLUMN_TITLE, detail.getTitle());
+        cv.put(DBHelper.COLUMN_ID,detail.getId());
+        cv.put(DBHelper.COLUMN_BODY, detail.getBody());
+        database.insert(DBHelper.TABLE_STORY_NAME, null, cv);
+    }
+
     public List<StorySimple> queryTodays(){
         List<StorySimple> simples = new LinkedList<>();
         Cursor cursor = database.query(DBHelper.TABLE_STORY_TODAY_NAME,allColumns2,null,null,null,null,DBHelper.COLUMN_GA_PREFIX+" DESC");
         int index1 = cursor.getColumnIndex("images");
         int index2 = cursor.getColumnIndex("title");
+        int index3 = cursor.getColumnIndex("id");
         StorySimple storySimple = new StorySimple();
         cursor.moveToFirst();
         storySimple.setImage(cursor.getString(index1));
         storySimple.setTitle(cursor.getString(index2));
+        storySimple.setId(cursor.getString(index3));
         simples.add(storySimple);
         while(cursor.moveToNext()){
             storySimple = new StorySimple();
             storySimple.setImage(cursor.getString(index1));
             storySimple.setTitle(cursor.getString(index2));
+            storySimple.setId(cursor.getString(index3));
             simples.add(storySimple);
         }
         cursor.close();
@@ -127,15 +147,18 @@ public class DataSource {
         }
         int index1 = cursor.getColumnIndex("image");
         int index2 = cursor.getColumnIndex("title");
+        int index3 = cursor.getColumnIndex("id");
         StorySimple storySimple = new StorySimple();
         cursor.moveToFirst();
         storySimple.setImage(cursor.getString(index1));
         storySimple.setTitle(cursor.getString(index2));
+        storySimple.setId(cursor.getString(index3));
         simples.add(storySimple);
         while(cursor.moveToNext()){
             storySimple = new StorySimple();
             storySimple.setImage(cursor.getString(index1));
             storySimple.setTitle(cursor.getString(index2));
+            storySimple.setId(cursor.getString(index3));
             simples.add(storySimple);
         }
         cursor.close();

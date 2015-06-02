@@ -1,6 +1,7 @@
 package com.lhyz.demo.zhihudialyprue.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lhyz.demo.zhihudialyprue.R;
+import com.lhyz.demo.zhihudialyprue.activity.ContentActivity;
 import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +35,16 @@ public class LabsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.view_pager_item, container, false);
+        View v = inflater.inflate(R.layout.view_pager_item, container, false);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ContentActivity.class);
+                intent.putExtra(ContentActivity.EXTRA_ID,mStoryHot.getId());
+                startActivity(intent);
+            }
+        });
+        return v;
     }
 
     @Override

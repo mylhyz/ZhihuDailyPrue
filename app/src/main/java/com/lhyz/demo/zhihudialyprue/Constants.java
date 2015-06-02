@@ -13,6 +13,8 @@ public class Constants {
     /**
      * 用来获取今日热点和新闻的API
      */
-    public static final String TODAY_STORIES_URL="http://news-at.zhihu.com/api/4/news/latest";
+    public static final String TODAY_STORIES_URL = "http://news-at.zhihu.com/api/4/news/latest";
+
+    public static final String STORY_DETAILS_URL = "http://news-at.zhihu.com/api/4/news/";
 
 }

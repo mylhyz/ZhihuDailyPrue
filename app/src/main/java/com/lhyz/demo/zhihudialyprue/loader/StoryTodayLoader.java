@@ -6,7 +6,7 @@ import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
 import com.lhyz.demo.zhihudialyprue.datebase.DataSource;
 
 import java.util.List;
-public class StoryTodayLoader extends DataLoader {
+public class StoryTodayLoader extends DataLoader<List<StorySimple>> {
 
     public StoryTodayLoader(Context context) {
         super(context);

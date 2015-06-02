@@ -3,13 +3,9 @@ package com.lhyz.demo.zhihudialyprue.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
+public abstract class DataLoader<D> extends AsyncTaskLoader<D> {
 
-import java.util.List;
-
-public abstract class DataLoader extends AsyncTaskLoader<List<StorySimple>> {
-
-    protected List<StorySimple> mData;
+    protected D mData;
     protected Context mContext;
 
     public DataLoader(Context context) {
@@ -17,7 +13,7 @@ public abstract class DataLoader extends AsyncTaskLoader<List<StorySimple>> {
         mContext= context;
     }
 
-    protected abstract List<StorySimple> loadData();
+    protected abstract D loadData();
 
     @Override
     protected void onStartLoading() {
@@ -29,7 +25,7 @@ public abstract class DataLoader extends AsyncTaskLoader<List<StorySimple>> {
     }
 
     @Override
-    public void deliverResult(List<StorySimple> data) {
+    public void deliverResult(D data) {
         mData = data;
         if(isStarted()){
             super.deliverResult(data);
