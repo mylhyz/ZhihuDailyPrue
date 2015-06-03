@@ -3,6 +3,7 @@ package com.lhyz.demo.zhihudialyprue.activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -24,6 +25,7 @@ import com.lhyz.demo.zhihudialyprue.datebase.DataSource;
 import com.lhyz.demo.zhihudialyprue.loader.StoryHotLoader;
 import com.lhyz.demo.zhihudialyprue.loader.StoryTodayLoader;
 import com.lhyz.demo.zhihudialyprue.network.BaseHttp;
+import com.lhyz.demo.zhihudialyprue.util.DateUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +35,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String PRE_DATE = "date";
 
     private LoaderManager mLoaderManager;
     private FragmentManager mFragmentManager;
@@ -52,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        String date = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(PRE_DATE, DateUtil.getToady());
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putString(PRE_DATE, DateUtil.getToady())
+                .commit();
+        if (!DateUtil.getToady().equals(date)) {
+            DataSource.getInstance(this).moveData();
+        }
 
         mLoaderManager = getSupportLoaderManager();
         mFragmentManager = getSupportFragmentManager();

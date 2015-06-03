@@ -12,4 +12,12 @@ public class StoryToday extends StoryBase {
     public String getMultipic() {
         return multipic;
     }
+
+    public void setImages(String[] images) {
+        this.images = images;
+    }
+
+    public void setMultipic(String multipic) {
+        this.multipic = multipic;
+    }
 }

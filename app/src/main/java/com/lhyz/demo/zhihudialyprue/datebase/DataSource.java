@@ -9,8 +9,10 @@ import com.lhyz.demo.zhihudialyprue.bean.StoryDetail;
 import com.lhyz.demo.zhihudialyprue.bean.StoryHot;
 import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
 import com.lhyz.demo.zhihudialyprue.bean.StoryToday;
+import com.lhyz.demo.zhihudialyprue.util.DateUtil;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -119,6 +121,61 @@ public class DataSource {
         cv.put(DBHelper.COLUMN_SHARE_URL,detail.getShare_url());
         cv.put(DBHelper.COLUMN_BODY, detail.getBody());
         database.insert(DBHelper.TABLE_STORY_NAME, null, cv);
+    }
+
+    public void moveData(){
+        List<StoryToday> todays = new ArrayList<>();
+        StoryToday today;
+
+        Cursor cursor = database.query(DBHelper.TABLE_STORY_TODAY_NAME, null, null, null, null, null, null, null);
+
+        int index1 = cursor.getColumnIndex(DBHelper.COLUMN_IMAGES);
+        int index2 = cursor.getColumnIndex(DBHelper.COLUMN_MULTIPIC);
+        int index3 = cursor.getColumnIndex(DBHelper.COLUMN_TYPE);
+        int index4 = cursor.getColumnIndex(DBHelper.COLUMN_ID);
+        int index5 = cursor.getColumnIndex(DBHelper.COLUMN_GA_PREFIX);
+        int index6 = cursor.getColumnIndex(DBHelper.COLUMN_TITLE);
+
+        cursor.moveToFirst();
+        today = new StoryToday();
+        today.setImages(new String[]{cursor.getString(index1)});
+        today.setMultipic(cursor.getString(index2));
+        today.setType(cursor.getString(index3));
+        today.setId(cursor.getString(index4));
+        today.setGa_prefix(cursor.getString(index5));
+        today.setTitle(cursor.getString(index6));
+        todays.add(today);
+
+        while (cursor.moveToNext()){
+            today = new StoryToday();
+            today.setImages(new String[]{cursor.getString(index1)});
+            today.setMultipic(cursor.getString(index2));
+            today.setType(cursor.getString(index3));
+            today.setId(cursor.getString(index4));
+            today.setGa_prefix(cursor.getString(index5));
+            today.setTitle(cursor.getString(index6));
+            todays.add(today);
+        }
+        cursor.close();
+
+        ContentValues cv = new ContentValues();
+        for(StoryToday item : todays){
+            cv.put(DBHelper.COLUMN_DATE, DateUtil.getYesToday());
+            cv.put(DBHelper.COLUMN_IMAGES,item.getImages()[0]);
+            cv.put(DBHelper.COLUMN_TYPE, item.getType());
+            cv.put(DBHelper.COLUMN_ID, item.getId());
+            cv.put(DBHelper.COLUMN_GA_PREFIX, item.getGa_prefix());
+            cv.put(DBHelper.COLUMN_TITLE, item.getTitle());
+            database.insert(DBHelper.TABLE_STORY_LAST_NAME,null,cv);
+            cv.clear();
+        }
+
+        deleteForm();
+    }
+
+    private void deleteForm(){
+        database.execSQL("DROP TABLE IF EXISTS "+ DBHelper.TABLE_STORY_TODAY_NAME);
+        database.execSQL(DBHelper.RECREATE_TABLE_STORY_TODAY);
     }
 
     public List<StorySimple> queryTodays(){

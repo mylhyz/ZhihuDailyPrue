@@ -10,6 +10,7 @@ public class DBHelper extends SQLiteOpenHelper{
     private static final int DB_VERSION = 3;
 
     public static final String TABLE_STORY_TODAY_NAME = "story_today";
+    public static final String TABLE_STORY_LAST_NAME = "story_last";
     public static final String TABLE_STORY_HOT_NAME ="story_hot";
     public static final String TABLE_STORY_NAME = "story";
 
@@ -23,10 +24,22 @@ public class DBHelper extends SQLiteOpenHelper{
     public static final String COLUMN_SOURCE = "image_source";
     public static final String COLUMN_SHARE_URL = "share_url";
     public static final String COLUMN_BODY = "body";
+    public static final String COLUMN_DATE = "date";
 
 
 
     private static final String CREATE_TABLE_STORY_TODAY=
+            "CREATE TABLE "+ TABLE_STORY_TODAY_NAME +
+                    "("+
+                    COLUMN_IMAGES+" VARCHAR(100) NOT NULL,"+
+                    COLUMN_MULTIPIC+" VARCHAR(10),"+
+                    COLUMN_TYPE+" INTEGER NOT NULL,"+
+                    COLUMN_ID+" INTEGER NOT NULL,"+
+                    COLUMN_GA_PREFIX+" INTEGER UNIQUE NOT NULL,"+
+                    COLUMN_TITLE+" VARCHAR(100) NOT NULL" +
+                    ")";
+
+    public static final String RECREATE_TABLE_STORY_TODAY=
             "CREATE TABLE "+ TABLE_STORY_TODAY_NAME +
                     "("+
                     COLUMN_IMAGES+" VARCHAR(100) NOT NULL,"+
@@ -58,6 +71,18 @@ public class DBHelper extends SQLiteOpenHelper{
                     COLUMN_BODY+" TEXT NOT NULL" +
                     ")";
 
+    private static final String CREATE_TABLE_STORY_LAST =
+            "CREATE TABLE "+TABLE_STORY_LAST_NAME+
+                    "("+
+                    COLUMN_DATE+" VARCHAR(10) NOT NULL,"+
+                    COLUMN_IMAGES+" VARCHAR(100) NOT NULL,"+
+                    COLUMN_TYPE+" INTEGER NOT NULL,"+
+                    COLUMN_ID+" INTEGER NOT NULL,"+
+                    COLUMN_GA_PREFIX+" INTEGER UNIQUE NOT NULL,"+
+                    COLUMN_TITLE+" VARCHAR(100) NOT NULL" +
+                    ")";
+
+
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -67,12 +92,14 @@ public class DBHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_STORY_TODAY);
         db.execSQL(CREATE_TABLE_STORY_HOT);
         db.execSQL(CREATE_TABLE_STORY);
+        db.execSQL(CREATE_TABLE_STORY_LAST);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_STORY_HOT_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_STORY_TODAY_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_STORY_LAST_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_STORY_NAME);
         onCreate(db);
     }

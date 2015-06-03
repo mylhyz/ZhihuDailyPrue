@@ -21,4 +21,20 @@ public class StoryBase {
     public String getTitle() {
         return title;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setGa_prefix(String ga_prefix) {
+        this.ga_prefix = ga_prefix;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
