@@ -1,7 +1,9 @@
 package com.lhyz.demo.zhihudialyprue.activity;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -20,8 +22,9 @@ import android.widget.TextView;
 import com.lhyz.demo.zhihudialyprue.Constants;
 import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.bean.StoryDetail;
+import com.lhyz.demo.zhihudialyprue.loader.SingleStoryLoader;
 import com.lhyz.demo.zhihudialyprue.loader.StoryDownloadLoader;
-import com.lhyz.demo.zhihudialyprue.loader.StoryLoader;
+import com.lhyz.demo.zhihudialyprue.provider.SingleStoryProvider;
 import com.squareup.picasso.Picasso;
 
 public class ContentActivity extends AppCompatActivity{
@@ -58,6 +61,14 @@ public class ContentActivity extends AppCompatActivity{
 
         mId = getIntent().getStringExtra(EXTRA_ID);
         mURL = Constants.STORY_DETAILS_URL + mId;
+
+        Cursor cursor = getContentResolver().query(ContentUris.withAppendedId(SingleStoryProvider.CONTENT_URI, Integer.parseInt(mId)), null, null, null, null);
+        if(cursor.getCount()==0){
+            getSupportLoaderManager().initLoader(3,null,new DownloadCallbacks());
+        }else{
+            getSupportLoaderManager().initLoader(4,null,new DBCallbacks());
+        }
+        cursor.close();
     }
 
     @Override
@@ -109,7 +120,7 @@ public class ContentActivity extends AppCompatActivity{
     private class DBCallbacks implements LoaderManager.LoaderCallbacks<StoryDetail>{
         @Override
         public Loader<StoryDetail> onCreateLoader(int id, Bundle args) {
-            return new StoryLoader(mContext,mId);
+            return new SingleStoryLoader(mContext,mId);
         }
 
         @Override

@@ -1,25 +1,30 @@
 package com.lhyz.demo.zhihudialyprue.loader;
 
 import android.content.Context;
+import android.database.Cursor;
 
-import com.lhyz.demo.zhihudialyprue.bean.StoryDetail;
+import com.lhyz.demo.zhihudialyprue.adapter.NewsListAdapter;
+import com.lhyz.demo.zhihudialyprue.log.Debug;
+import com.lhyz.demo.zhihudialyprue.provider.StoryProvider;
 
-public class StoryLoader extends DataLoader<StoryDetail> {
+public class StoryLoader extends DataLoader<Cursor> {
+    private static final String TAG  = StoryLoader.class.getCanonicalName();
 
-    private String id;
-
-    public StoryLoader(Context context,String id) {
+    public StoryLoader(Context context) {
         super(context);
-        this.id = id;
     }
 
     @Override
-    protected StoryDetail loadData() {
-        return null;
+    protected Cursor loadData() {
+        Cursor cursor = mContext.getContentResolver().query(StoryProvider.CONTENT_URI, NewsListAdapter.projection,null,null,null);
+        if(cursor==null){
+            Debug.i(TAG,"Could not load data from StoryProvider . ");
+        }
+        return cursor;
     }
 
     @Override
-    public StoryDetail loadInBackground() {
+    public Cursor loadInBackground() {
         return loadData();
     }
 }

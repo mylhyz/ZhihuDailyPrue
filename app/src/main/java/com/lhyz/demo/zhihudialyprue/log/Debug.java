@@ -16,7 +16,7 @@ public class Debug {
 
     public static void e(String TAG,String msg,Exception e){
         if(ON){
-            Log.e(TAG, msg,e);
+            Log.e(TAG,msg,e);
         }
     }
 

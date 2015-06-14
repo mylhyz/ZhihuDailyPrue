@@ -42,6 +42,11 @@
             android:name=".provider.TopStoryProvider"
             android:exported="false"/>
 
+        <provider
+            android:authorities="com.lhyz.demo.zhihudialyprue.provider.SingleStoryProvider"
+            android:name=".provider.SingleStoryProvider"
+            android:exported="false"/>
+
         <!-- Service -->
         <service android:name=".service.UpdateService"/>
 

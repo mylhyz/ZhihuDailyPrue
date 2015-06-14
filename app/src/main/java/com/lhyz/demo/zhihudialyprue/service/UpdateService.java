@@ -30,7 +30,8 @@ import java.util.List;
 /**
  * Created by lhyz on 6/14/2015.
  * Copyright (c)
- */
+ *
+ * 此Service可以从网上下载并保存数据到数据库中 */
 public class UpdateService extends IntentService{
     private static final String TAG = UpdateService.class.getCanonicalName();
 

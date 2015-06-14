@@ -7,6 +7,7 @@ public class StoryDetail {
     private String image;
     private String id;
     private String share_url;
+    private String[] css;
 
     public String getBody() {
         return body;
@@ -54,5 +55,13 @@ public class StoryDetail {
 
     public void setShare_url(String share_url) {
         this.share_url = share_url;
+    }
+
+    public String[] getCss() {
+        return css;
+    }
+
+    public void setCss(String[] css) {
+        this.css = css;
     }
 }

@@ -29,6 +29,8 @@ public class StoryProvider extends ContentProvider {
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_MULTIPIC = "multipic";
 
+    private static final String DEFAULT_ORDER = COLUMN_GA_PREFIX + " DESC";
+
     public static final String AUTHORITY = StoryProvider.class.getCanonicalName();
     //这个算作默认能够查询到的URI
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
@@ -84,7 +86,7 @@ public class StoryProvider extends ContentProvider {
 
         final SQLiteDatabase db = mDBHelper.getReadableDatabase();
         assert db != null;
-        Cursor result = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor result = qb.query(db, projection, selection, selectionArgs, null, null, DEFAULT_ORDER);
         result.setNotificationUri(getContext().getContentResolver(), uri);
         return result;
     }

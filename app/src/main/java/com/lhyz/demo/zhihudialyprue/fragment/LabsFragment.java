@@ -25,10 +25,10 @@ public class LabsFragment extends Fragment {
 
     }
 
-    public static LabsFragment getInstance(Context context,StorySimple storyHot){
+    public static LabsFragment getInstance(Context context,StorySimple simple){
         LabsFragment fragment = new LabsFragment();
         fragment.mContext = context;
-        fragment.mStoryHot = storyHot;
+        fragment.mStoryHot = simple;
         return fragment;
     }
 

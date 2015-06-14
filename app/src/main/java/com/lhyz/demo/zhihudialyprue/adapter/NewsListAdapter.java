@@ -2,6 +2,7 @@ package com.lhyz.demo.zhihudialyprue.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.activity.ContentActivity;
 import com.lhyz.demo.zhihudialyprue.bean.StorySimple;
+import com.lhyz.demo.zhihudialyprue.provider.StoryProvider;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,17 +28,33 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_VIEW_TITLE = 1;
     private static final int TYPE_VIEW_ITEM = 2;
 
-    private static List<StorySimple> mDataTodays = new ArrayList<>();
-    private List<StorySimple> mDataHots = new ArrayList<>();
+    public static final String[] projection = new String[]{
+            StoryProvider.COLUMN_ID,
+            StoryProvider.COLUMN_IMAGE,
+            StoryProvider.COLUMN_TITLE
+    };
 
+    private static List<StorySimple> mDataTodays;
     private static Context mContext;
     private LabsPageStateAdapter mAdapter;
 
-    public NewsListAdapter(Context context,FragmentManager fm,List<StorySimple> todays,List<StorySimple> hots) {
+    public NewsListAdapter(Context context,FragmentManager fm,Cursor c1,Cursor c2) {
         mContext = context;
-        mDataTodays = todays;
-        mDataHots = hots;
-        mAdapter = new LabsPageStateAdapter(context,fm,hots);
+        mDataTodays = new ArrayList<>();
+        int idIdx = c1.getColumnIndex(StoryProvider.COLUMN_ID);
+        int imgIdx = c1.getColumnIndex(StoryProvider.COLUMN_IMAGE);
+        int titleIdx = c1.getColumnIndex(StoryProvider.COLUMN_TITLE);
+        StorySimple simple;
+        while(c1.moveToNext()){
+            simple = new StorySimple();
+            simple.setId(Integer.toString(c1.getInt(idIdx)));
+            simple.setImage(c1.getString(imgIdx));
+            simple.setTitle(c1.getString(titleIdx));
+            mDataTodays.add(simple);
+        }
+        c1.close();
+
+        mAdapter = new LabsPageStateAdapter(context,fm,c2);
     }
 
     /**
@@ -170,7 +188,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     @Override
     public int getItemCount() {
-        if(mDataTodays == null || mDataHots == null){
+        if(mDataTodays == null){
             return 0;
         }
         return mDataTodays.size()+2;
