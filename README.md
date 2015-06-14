@@ -77,3 +77,11 @@ drawable使用体积较小的jpeg图片。
 1）使用ContentProvider进行数据库操作
  
 2）使用Service后台下载并处理数据
+
+###11.用Provider修改详情页的缓存方式 2015-6-14
+
+1）修改ContentActivity的后台实现方式，加入Provider作为Loader数据源
+
+2）分开用来下载数据的Loader和从数据库中加载数据的Loader，按照数据库中数据的有无选择加载方式，Provider使用的是内联DBHelper，并新开了一个数据库
+
+3）修改了详情实体类的实现，加入了保存CSS的项，将试图在WebView中加载CSS进行渲染。
