@@ -31,6 +31,20 @@
                 android:value="com.lhyz.demo.zhihudialyprue.activity.MainActivity" />
         </activity>
 
+        <!-- Provider -->
+        <provider
+            android:authorities="com.lhyz.demo.zhihudialyprue.provider.StoryProvider"
+            android:name=".provider.StoryProvider"
+            android:exported="false"/>
+
+        <provider
+            android:authorities="com.lhyz.demo.zhihudialyprue.provider.TopStoryProvider"
+            android:name=".provider.TopStoryProvider"
+            android:exported="false"/>
+
+        <!-- Service -->
+        <service android:name=".service.UpdateService"/>
+
     </application>
 
 </manifest>

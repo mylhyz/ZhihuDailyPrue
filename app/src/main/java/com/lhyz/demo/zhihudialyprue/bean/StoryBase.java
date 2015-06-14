@@ -1,14 +1,9 @@
 package com.lhyz.demo.zhihudialyprue.bean;
 
 public class StoryBase {
-    protected String type;
     protected String id;
     protected String ga_prefix;
     protected String title;
-
-    public String getType() {
-        return type;
-    }
 
     public String getId() {
         return id;
@@ -20,10 +15,6 @@ public class StoryBase {
 
     public String getTitle() {
         return title;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public void setId(String id) {

@@ -3,8 +3,6 @@ package com.lhyz.demo.zhihudialyprue.cache;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.lhyz.demo.zhihudialyprue.log.Debug;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +25,6 @@ public class StartPagerCache {
             boolean delete = file.delete();
             if(delete){
                 //未测试结果的语句，可能有错误
-                Debug.i("Delete file " + file.getName());
             }
         }
     }

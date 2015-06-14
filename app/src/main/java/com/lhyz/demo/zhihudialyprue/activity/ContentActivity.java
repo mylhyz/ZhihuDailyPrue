@@ -20,10 +20,8 @@ import android.widget.TextView;
 import com.lhyz.demo.zhihudialyprue.Constants;
 import com.lhyz.demo.zhihudialyprue.R;
 import com.lhyz.demo.zhihudialyprue.bean.StoryDetail;
-import com.lhyz.demo.zhihudialyprue.datebase.DataSource;
 import com.lhyz.demo.zhihudialyprue.loader.StoryDownloadLoader;
 import com.lhyz.demo.zhihudialyprue.loader.StoryLoader;
-import com.lhyz.demo.zhihudialyprue.log.Debug;
 import com.squareup.picasso.Picasso;
 
 public class ContentActivity extends AppCompatActivity{
@@ -60,13 +58,6 @@ public class ContentActivity extends AppCompatActivity{
 
         mId = getIntent().getStringExtra(EXTRA_ID);
         mURL = Constants.STORY_DETAILS_URL + mId;
-        if(DataSource.getInstance(this).hasStory(mId)){
-            Debug.i("Has It");
-            getSupportLoaderManager().initLoader(3,null,new DBCallbacks());
-        }else{
-            Debug.i("Has NOT Cache It");
-            getSupportLoaderManager().initLoader(4,null,new DownloadCallbacks());
-        }
     }
 
     @Override

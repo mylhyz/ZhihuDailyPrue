@@ -15,7 +15,7 @@ public class BaseHttp {
      * @return 获取到的字符串数据
      */
     public static String get(String urlString) throws IOException {
-        Debug.i("GET "+urlString);
+
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -32,7 +32,7 @@ public class BaseHttp {
             throw new IOException("Network Error - response code: " + connection.getResponseCode());
         }
         connection.disconnect();
-        Debug.i("DATA " + builder.toString());
+
         return builder.toString();
     }
 }

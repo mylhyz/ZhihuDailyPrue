@@ -3,7 +3,6 @@ package com.lhyz.demo.zhihudialyprue.loader;
 import android.content.Context;
 
 import com.lhyz.demo.zhihudialyprue.bean.StoryDetail;
-import com.lhyz.demo.zhihudialyprue.datebase.DataSource;
 
 public class StoryLoader extends DataLoader<StoryDetail> {
 
@@ -16,7 +15,7 @@ public class StoryLoader extends DataLoader<StoryDetail> {
 
     @Override
     protected StoryDetail loadData() {
-        return DataSource.getInstance(mContext).getStory(id);
+        return null;
     }
 
     @Override
