@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
     <ScrollView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_below="@id/toolbar"
         xmlns:android="http://schemas.android.com/apk/res/android">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -15,7 +19,7 @@
             <FrameLayout
                 android:id="@+id/first"
                 android:layout_width="match_parent"
-                android:layout_height="256dp">
+                android:layout_height="208dp">
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
@@ -43,14 +47,14 @@
                         android:textColor="@android:color/white"/>
                 </LinearLayout>
             </FrameLayout>
+
             <WebView
                 android:id="@+id/content"
                 android:layout_below="@id/first"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
         </RelativeLayout>
     </ScrollView>
 
-    <include layout="@layout/toolbar"/>
-
-</FrameLayout>
+</RelativeLayout>

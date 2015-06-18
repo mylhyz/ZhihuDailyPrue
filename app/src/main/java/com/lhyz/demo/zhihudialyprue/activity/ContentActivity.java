@@ -100,15 +100,7 @@ public class ContentActivity extends AppCompatActivity{
 
         @Override
         public void onLoadFinished(Loader<StoryDetail> loader, StoryDetail data) {
-            mDetail = data;
-            Picasso.with(mContext)
-                    .load(data.getImage())
-                    .fit()
-                    .centerCrop()
-                    .into(mImageView);
-            mTitleTextView.setText(data.getTitle());
-            mSourceTextView.setText(data.getImage_source());
-            mWebView.loadData(data.getBody(), "text/html; charset=UTF-8", null);
+            setContent(data);
         }
 
         @Override
@@ -125,20 +117,27 @@ public class ContentActivity extends AppCompatActivity{
 
         @Override
         public void onLoadFinished(Loader<StoryDetail> loader, StoryDetail data) {
-            mDetail = data;
-            Picasso.with(mContext)
-                    .load(data.getImage())
-                    .fit()
-                    .centerCrop()
-                    .into(mImageView);
-            mTitleTextView.setText(data.getTitle());
-            mSourceTextView.setText(data.getImage_source());
-            mWebView.loadData(data.getBody(), "text/html; charset=UTF-8", null);
+            setContent(data);
         }
 
         @Override
         public void onLoaderReset(Loader<StoryDetail> loader) {
 
         }
+    }
+
+    private void setContent(StoryDetail data){
+        mDetail = data;
+        Picasso.with(mContext)
+                .load(data.getImage())
+                .fit()
+                .centerCrop()
+                .into(mImageView);
+        mTitleTextView.setText(data.getTitle());
+        mSourceTextView.setText(data.getImage_source());
+        String css = data.getCss()[0];
+        mWebView.loadData(("<head>\n" +
+                "    <link rel=\"stylesheet\" style=\"text/css\" href=\"") + css + "\"/>\n" +
+                "</head>" + data.getBody(), "text/html; charset=UTF-8", null);
     }
 }
