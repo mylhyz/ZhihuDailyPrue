@@ -1,103 +1,21 @@
-知乎日报 简易App
+# 简易知乎日报App
+[![Apache Licence](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 根据知乎日报网络请求API自实现的一个知乎日报客户端。
 
-##制作日程
 
-###1.制作启动界面 2015-5-22
+### Licence
 
-1）通过设备尺寸构建API请求
-
-2）使用HttpURLConnection下载网络数据
-
-3）使用文件制作图片作者和图片缓存
-
-###2.使用View Animation制作启动页渐隐动画 2015-5-23
-
-Error )动画有时间，监听动画播放完毕之后再跳转到下一个MainActivity，
-但是问题是此时播放完成和加载Activity之间的时差会导致动画完成之后
-显示一张图片而不是直接切换。
-
-###3.使用Gson解析每天最新的新闻信息，并提交数据库保存 2015-5-25
-
-1)sqlite数据库的插入和创建，insert方法已经确保了不满足约束条件时候不至ANR异常
-
-2)使用Executor服务创建一个工具类，顺序执行json数据的下载，解析和保存
-
-###4.完成数据的下载和保存，发现启动页首次启动无网络的崩溃问题 2015-5-27
-
-1)通过在程序中预先打包一个drawable和string来定义在无网络的时候加载的数据，
-drawable使用体积较小的jpeg图片。
-
-2)由于从drawable编码bitmap速度较慢，采用缩放加载的方式
-
-**OOM问题暂时没有遇到过，暂时没有经验**
-
-###5.准备数据异步加载工具Loader的使用 2015-5-27
-
-###6.主要UI界面构建完毕 2015-5-29
-
-1）在RecyclerView中实现多类型的视图
-
-2）大体模仿了知乎日报首页的热点新闻效果，暂时没有加入自动切换
-
-3）完成Loader与SwipeRefreshLayout的结合，在RecyclerView的Adapter中为
-两个Adapter简单的刷新数据。
-
-4）重写了下载首页新闻数据的线程，从混合的Callable改成单纯的Thread，
-原因是处理回调数据的时候有未知Bug导致数据无法获取到以至于无法插入数据库。
-
-5）了解Loader的主要使用方式和LoaderManager的基本使用方式
-
-###7.重构项目架构，修改API和某些类的使用 2015-5-31
-
-1）解构RecyclerView的Adapter，将原来复杂的类按照必要性重新分离
-
-2）发现FragmentPagerAdapter的问题，暂时无法解决，只能改用FragmentStatePagerAdapter
-
-3）修改了启动页，讲ImageView动画结束后也设置位INVISIBLE
-
-###8.获取新闻详细页并显示 2015-6-2
-
-1）使用WebView加载获取到的HTML数据，数据是一系列的div来标记的
-
-2）新建数据表，将数据缓存到数据库中
-
-3）为每个item添加了监听，会转到详情页
-
-4）将每次进入缓存页缓存的div按需加载（每次进入详情页的时候会判断数据库中是否存在数据），这个规则会在稍后加入到其他数据表的插入操作和查询例程中。
-
-5）按照设想原本是想要加入一个分享功能，但是按照官方文档设置后分享按钮无法使用。
-
-###9.储存昨天获取的信息列表 2015-6-3
-
-1）进入MainActivity的时候会检查日期，只要时间过了，那么就移动today表中的数据到last表中，并加入时间头。
-
-###10.完全改版，准备开始使用Service+ContentProvider+Loader加载数据 2015-6-14
-
-1）使用ContentProvider进行数据库操作
- 
-2）使用Service后台下载并处理数据
-
-###11.用Provider修改详情页的缓存方式 2015-6-14
-
-1）修改ContentActivity的后台实现方式，加入Provider作为Loader数据源
-
-2）分开用来下载数据的Loader和从数据库中加载数据的Loader，按照数据库中数据的有无选择加载方式，Provider使用的是内联DBHelper，并新开了一个数据库
-
-3）修改了详情实体类的实现，加入了保存CSS的项，将试图在WebView中加载CSS进行渲染。
-
-###12.使用CSS渲染阅读详情页
-
-1）通过HTML头中添加CSS外链地址，实现出内容的排版
-
-2）Bug是在我的4.0.4和模拟器5.1.0上两个HTML（DIV）内容的加载有不同，在实体机上（4.0.4）是会忽略主体DIV之前没有用的换行的，但是在5.1.0中却没有，所以在模拟骑上测试时在正文和图片Title之前会有一大段的空白，有趣的是这个空白正好放下Title那个FrameLayout，看来可以考虑根据系统版本编写layout了
-
-3）最大的Bug是如果在没有网络的情况下打开应用会崩溃，暂时没想到有什么好方法了。（最近考试月）
-
-4）如果可以的话，后续要加入一个分享模块，集成一下各个网站的分享sdk，同时尝试解决一下如何仿制知乎日报首页的多View显示（按照日期分title）
-
-
-# DEPRECATED 最后一次更新是更新了gradle和库版本并准备弃疗
-本项目年久失修，而且当初的设计比较生硬，通过最近学习架构方面的知识，准备重写一次。计划是通过一个流行架构重新构建整个app并抽象出一个比较普适的简单框架。
-
-准备完全使用开源库来实现，避免重复造轮子
+> Copyright (c) 2016 lhyz Android Open Source Project
+>
+> Licensed under the Apache License, Version 2.0 (the "License");
+> you may not use this file except in compliance with the License.
+> You may obtain a copy of the License at
+>
+>     http://www.apache.org/licenses/LICENSE-2.0
+>
+> Unless required by applicable law or agreed to in writing, software
+> distributed under the License is distributed on an "AS IS" BASIS,
+> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+> See the License for the specific language governing permissions and
+> limitations under the License.

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="48dp">
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20sp"
         android:gravity="center_vertical"
         android:paddingLeft="8dp"
-        android:text="@string/today_news"/>
+        android:paddingStart="8dp"
+        android:text="@string/today_news"
+        android:textSize="20sp"/>
 
 </RelativeLayout>
