@@ -1,5 +1,6 @@
 # 简易知乎日报App
 [![Build Status](https://travis-ci.org/wylhyz/ZhihuDialyPrue.svg?branch=master)](https://travis-ci.org/wylhyz/ZhihuDialyPrue)
+[![Dev Build Status](https://gitlab.com/wylhyz/ZhihuDialyPrue/badges/develope/build.svg)](https://gitlab.com/wylhyz/ZhihuDialyPrue)
 [![Apache Licence](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 根据知乎日报网络请求API自实现的一个知乎日报客户端。
