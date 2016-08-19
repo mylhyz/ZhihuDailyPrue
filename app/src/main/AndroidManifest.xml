@@ -1,58 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="io.lhyz.android.zhihu.dialy">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".ZhihuDailyApplication"
+        android:name=".ZhihuDailyApp"
         android:allowBackup="true"
-        android:supportsRtl="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".activity.StartActivity"
-            android:label="@string/app_name"
-            android:theme="@style/NoActionBarTheme">
+            android:name=".AppStart"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/NoActionBarTheme"/>
-        <activity
-            android:name=".activity.ContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/NoActionBarTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.lhyz.android.zhihu.dialy.activity.MainActivity"/>
-        </activity>
 
-        <!-- Provider -->
-        <provider
-            android:name=".provider.StoryProvider"
-            android:authorities="io.lhyz.android.zhihu.dialy.provider.StoryProvider"
-            android:exported="false"/>
-
-        <provider
-            android:name=".provider.TopStoryProvider"
-            android:authorities="io.lhyz.android.zhihu.dialy.provider.TopStoryProvider"
-            android:exported="false"/>
-
-        <provider
-            android:name=".provider.SingleStoryProvider"
-            android:authorities="io.lhyz.android.zhihu.dialy.provider.SingleStoryProvider"
-            android:exported="false"/>
-
-        <!-- Service -->
-        <service android:name=".service.UpdateService"/>
-
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="0aa57e33a3f18af76e3256128cae61c33d964541"/>
     </application>
 
 </manifest>

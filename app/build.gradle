@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -17,6 +19,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "8g"
+    }
 }
 
 dependencies {
@@ -24,12 +34,45 @@ dependencies {
     //for unit test
     testCompile 'junit:junit:4.12'
 
+    //Android Support Libraries
+    compile 'com.android.support:support-annotations:24.1.1'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.android.support:cardview-v7:24.1.1'
-    compile 'com.android.support:support-v4:24.1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'org.jsoup:jsoup:1.8.2'
-    compile files('libs/volley.jar')
+    compile 'com.android.support:design:24.1.1'
+    //View 绑定
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    //Material Dialogs Support
+    compile 'com.afollestad.material-dialogs:core:0.8.6.2'
+    compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
+    //OkHttp
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okio:okio:1.9.0'
+    //RxJava
+    compile 'io.reactivex:rxjava:1.1.8'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    //Gson
+    compile 'com.google.code.gson:gson:2.7'
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    //Dagger2
+    compile 'com.google.dagger:dagger:2.6'
+    apt 'com.google.dagger:dagger-compiler:2.6'
+    provided 'javax.annotation:jsr250-api:1.0'
+    //GIF
+    compile 'com.facebook.fresco:fresco:0.12.0'
+    //Google Guava
+    compile 'com.google.guava:guava:19.0'
+    //Database ORM
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
+    //Log Support
+    compile 'com.orhanobut:logger:1.15'
+    //Fabric
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
+    }
 }
