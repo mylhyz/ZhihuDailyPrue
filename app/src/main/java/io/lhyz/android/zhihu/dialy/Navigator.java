@@ -18,7 +18,7 @@ package io.lhyz.android.zhihu.dialy;
 import android.content.Context;
 import android.content.Intent;
 
-import io.lhyz.android.zhihu.dialy.mvp.main.MainActivity;
+import io.lhyz.android.zhihu.dialy.ui.main.MainActivity;
 
 /**
  * hello,android

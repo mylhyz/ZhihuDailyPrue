@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.data.source;
-
-import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+package io.lhyz.android.zhihu.dialy.base;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/19.
  */
-public interface DataSource {
-    interface LoadLatestCallback {
-        void onLatestLoaded(Latest result);
+public interface BasePresenter {
+    void start();
 
-        void onNoLatestAvailable();
-    }
+    void pause();
 
-    void loadLatest(LoadLatestCallback callback);
-
-    void cancel();
+    void destroy();
 }

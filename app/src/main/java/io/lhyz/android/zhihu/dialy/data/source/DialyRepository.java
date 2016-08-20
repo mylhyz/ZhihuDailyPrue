@@ -15,9 +15,43 @@
  */
 package io.lhyz.android.zhihu.dialy.data.source;
 
+import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/19.
  */
-public class DialyRepository {
+public class DialyRepository implements DataSource {
+
+
+    DataSource mLocalDataSource;
+
+    DataSource mRemoteDataSource;
+
+    public DialyRepository(DataSource localDataSource,
+                           DataSource remoteDataSource) {
+        mLocalDataSource = localDataSource;
+        mRemoteDataSource = remoteDataSource;
+    }
+
+    @Override
+    public void loadLatest(final LoadLatestCallback callback) {
+        mRemoteDataSource.loadLatest(new LoadLatestCallback() {
+            @Override
+            public void onLatestLoaded(Latest result) {
+                callback.onLatestLoaded(result);
+            }
+
+            @Override
+            public void onNoLatestAvailable() {
+                callback.onNoLatestAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void cancel() {
+        mLocalDataSource.cancel();
+        mRemoteDataSource.cancel();
+    }
 }

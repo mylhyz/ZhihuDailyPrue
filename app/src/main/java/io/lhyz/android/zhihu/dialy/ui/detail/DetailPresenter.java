@@ -13,21 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.mvp.detail;
-
-import io.lhyz.android.zhihu.dialy.mvp.BasePresenter;
-import io.lhyz.android.zhihu.dialy.mvp.BaseView;
+package io.lhyz.android.zhihu.dialy.ui.detail;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/19.
  */
-public class DetailContract {
-    interface Presenter extends BasePresenter {
-
-    }
-
-    interface View extends BaseView<Presenter> {
-
-    }
+public class DetailPresenter {
 }

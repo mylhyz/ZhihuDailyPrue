@@ -15,9 +15,32 @@
  */
 package io.lhyz.android.zhihu.dialy.data.source.local;
 
+import io.lhyz.android.zhihu.dialy.data.source.DataSource;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/19.
  */
-public class LocalDataSource {
+public class LocalDataSource implements DataSource {
+
+    private static class Holder {
+        private static final LocalDataSource instance = new LocalDataSource();
+    }
+
+    public static LocalDataSource getInstance() {
+        return Holder.instance;
+    }
+
+    private LocalDataSource() {
+    }
+
+    @Override
+    public void loadLatest(LoadLatestCallback callback) {
+
+    }
+
+    @Override
+    public void cancel() {
+
+    }
 }

@@ -28,4 +28,22 @@ public class Latest {
     List<Story> stories;
     @SerializedName("top_stories")
     List<Story> topStories;
+
+    public Latest(String date, List<Story> stories, List<Story> topStories) {
+        this.date = date;
+        this.stories = stories;
+        this.topStories = topStories;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public List<Story> getStories() {
+        return stories;
+    }
+
+    public List<Story> getTopStories() {
+        return topStories;
+    }
 }

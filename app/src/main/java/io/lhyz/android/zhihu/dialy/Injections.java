@@ -13,11 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.mvp.main;
+package io.lhyz.android.zhihu.dialy;
+
+import io.lhyz.android.zhihu.dialy.data.source.DialyRepository;
+import io.lhyz.android.zhihu.dialy.data.source.local.LocalDataSource;
+import io.lhyz.android.zhihu.dialy.data.source.remote.RemoteDataSource;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/20.
  */
-public class MainPresenter {
+public class Injections {
+    public static DialyRepository provideRepository() {
+        return new DialyRepository(LocalDataSource.getInstance(),
+                RemoteDataSource.getInstance());
+    }
 }

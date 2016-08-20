@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.mvp.detail;
+package io.lhyz.android.zhihu.dialy.executor;
 
-import io.lhyz.android.zhihu.dialy.R;
-import io.lhyz.android.zhihu.dialy.mvp.BaseActivity;
+import javax.inject.Inject;
+
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/20.
  */
-public class DetailActivity extends BaseActivity {
+public class UIThread implements PostThreadExecutor {
+
+    @Inject
+    public UIThread() {
+    }
 
     @Override
-    protected int getLayout() {
-        return R.layout.act_detail;
+    public Scheduler getScheduler() {
+        return AndroidSchedulers.mainThread();
     }
 }

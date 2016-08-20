@@ -32,7 +32,7 @@ import io.lhyz.android.zhihu.dialy.base.DefaultSubscriber;
 import io.lhyz.android.zhihu.dialy.data.bean.StartImage;
 import io.lhyz.android.zhihu.dialy.data.source.DialyService;
 import io.lhyz.android.zhihu.dialy.data.source.ServiceCreator;
-import io.lhyz.android.zhihu.dialy.mvp.BaseActivity;
+import io.lhyz.android.zhihu.dialy.ui.BaseActivity;
 import io.lhyz.android.zhihu.dialy.util.NetworkHelper;
 import io.lhyz.android.zhihu.dialy.util.TagHelper;
 import rx.Observable;

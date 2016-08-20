@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.data.source;
+package io.lhyz.android.zhihu.dialy.executor;
 
-import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import rx.Scheduler;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/20.
  */
-public interface DataSource {
-    interface LoadLatestCallback {
-        void onLatestLoaded(Latest result);
-
-        void onNoLatestAvailable();
-    }
-
-    void loadLatest(LoadLatestCallback callback);
-
-    void cancel();
+public interface PostThreadExecutor {
+    Scheduler getScheduler();
 }

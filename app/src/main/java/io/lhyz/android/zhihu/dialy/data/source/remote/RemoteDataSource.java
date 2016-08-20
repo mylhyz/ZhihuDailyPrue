@@ -15,9 +15,76 @@
  */
 package io.lhyz.android.zhihu.dialy.data.source.remote;
 
+import io.lhyz.android.zhihu.dialy.base.DefaultSubscriber;
+import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.data.source.DataSource;
+import io.lhyz.android.zhihu.dialy.data.source.DialyService;
+import io.lhyz.android.zhihu.dialy.data.source.ServiceCreator;
+import io.lhyz.android.zhihu.dialy.executor.JobExecutor;
+import io.lhyz.android.zhihu.dialy.executor.PostThreadExecutor;
+import io.lhyz.android.zhihu.dialy.executor.ThreadExecutor;
+import io.lhyz.android.zhihu.dialy.executor.UIThread;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/19.
  */
-public class RemoteDataSource {
+public class RemoteDataSource implements DataSource {
+
+    ThreadExecutor mThreadExecutor;
+    PostThreadExecutor mPostThreadExecutor;
+
+    DialyService mDialyService;
+
+    CompositeSubscription mCompositeSubscription;
+
+    private static class Holder {
+        private static final RemoteDataSource instance = new RemoteDataSource();
+    }
+
+    public static RemoteDataSource getInstance() {
+        return Holder.instance;
+    }
+
+    private RemoteDataSource() {
+        mThreadExecutor = new JobExecutor();
+        mPostThreadExecutor = new UIThread();
+
+        mDialyService = ServiceCreator.getInstance().createService();
+
+        mCompositeSubscription = new CompositeSubscription();
+    }
+
+    @Override
+    public void loadLatest(final LoadLatestCallback callback) {
+        Subscription subscription = mDialyService.getLatest()
+                .subscribeOn(Schedulers.from(mThreadExecutor))
+                .observeOn(mPostThreadExecutor.getScheduler())
+                .subscribe(new DefaultSubscriber<Latest>() {
+                    @Override
+                    protected void onSuccess(Latest result) {
+                        if (result == null) {
+                            onError(new IllegalStateException("no data available"));
+                            return;
+                        }
+                        callback.onLatestLoaded(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onNoLatestAvailable();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void cancel() {
+        if (mCompositeSubscription != null) {
+            mCompositeSubscription.clear();
+        }
+    }
 }

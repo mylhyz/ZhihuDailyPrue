@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.data.source;
+package io.lhyz.android.zhihu.dialy.ui.detail;
 
-import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.R;
+import io.lhyz.android.zhihu.dialy.ui.BaseActivity;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/19.
  */
-public interface DataSource {
-    interface LoadLatestCallback {
-        void onLatestLoaded(Latest result);
+public class DetailActivity extends BaseActivity {
 
-        void onNoLatestAvailable();
+    @Override
+    protected int getLayout() {
+        return R.layout.act_detail;
     }
-
-    void loadLatest(LoadLatestCallback callback);
-
-    void cancel();
 }

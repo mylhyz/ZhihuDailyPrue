@@ -29,4 +29,32 @@ public class Story {
     String image;
     int type;
     long id;
+
+    public Story(String title, List<String> images, String image, int type, long id) {
+        this.title = title;
+        this.images = images;
+        this.image = image;
+        this.type = type;
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public long getId() {
+        return id;
+    }
 }

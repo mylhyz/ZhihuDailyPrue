@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.mvp;
+package io.lhyz.android.zhihu.dialy.executor;
+
+import java.util.concurrent.Executor;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/20.
  */
-public interface BasePresenter {
-    void start();
+public interface ThreadExecutor extends Executor {
 
-    void pause();
-
-    void destroy();
 }
