@@ -15,6 +15,7 @@
  */
 package io.lhyz.android.zhihu.dialy.mvp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -40,5 +41,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getLayout();
 
     protected void setWindowFeature() {
+    }
+
+    protected Context getActivity() {
+        return this;
     }
 }

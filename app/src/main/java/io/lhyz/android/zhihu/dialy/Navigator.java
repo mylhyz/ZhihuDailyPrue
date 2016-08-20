@@ -13,19 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.mvp.detail;
+package io.lhyz.android.zhihu.dialy;
 
-import io.lhyz.android.zhihu.dialy.R;
-import io.lhyz.android.zhihu.dialy.mvp.BaseFragment;
+import android.content.Context;
+import android.content.Intent;
+
+import io.lhyz.android.zhihu.dialy.mvp.main.MainActivity;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/20.
  */
-public class DetailFragment extends BaseFragment {
-
-    @Override
-    protected int getLayout() {
-        return R.layout.frag_detail;
+public class Navigator {
+    public static void navigateToMainActivity(Context context) {
+        if (context == null) {
+            return;
+        }
+        context.startActivity(new Intent(context, MainActivity.class));
     }
 }

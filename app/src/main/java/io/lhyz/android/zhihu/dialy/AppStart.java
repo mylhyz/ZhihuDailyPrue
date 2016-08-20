@@ -17,7 +17,9 @@ package io.lhyz.android.zhihu.dialy;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -31,7 +33,9 @@ import io.lhyz.android.zhihu.dialy.data.bean.StartImage;
 import io.lhyz.android.zhihu.dialy.data.source.DialyService;
 import io.lhyz.android.zhihu.dialy.data.source.ServiceCreator;
 import io.lhyz.android.zhihu.dialy.mvp.BaseActivity;
+import io.lhyz.android.zhihu.dialy.util.NetworkHelper;
 import io.lhyz.android.zhihu.dialy.util.TagHelper;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -49,6 +53,8 @@ public class AppStart extends BaseActivity {
     SimpleDraweeView mSimpleDraweeView;
     @BindView(R.id.tv_author)
     TextView mTextView;
+    @BindView(R.id.tv_timer)
+    TextView mTextViewTimer;
 
     Subscription mSubscription;
 
@@ -56,35 +62,70 @@ public class AppStart extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int width = getResources().getDisplayMetrics().widthPixels;
-        String size;
-        if (width < 320) {
-            size = "320*432";
-        } else if (width < 480) {
-            size = "480*728";
-        } else if (width < 720) {
-            size = "720*1184";
-        } else {
-            size = "1080*1776";
-        }
+        mCountDownTimer.start();
 
-        DialyService service = ServiceCreator.getInstance().createService();
-        mSubscription = service.getStartImage(size)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mStartImageSubscriber);
+        if (!NetworkHelper.isConnected()) {
+            mSubscription = Observable.create(new Observable.OnSubscribe<StartImage>() {
+                @Override
+                public void call(Subscriber<? super StartImage> subscriber) {
+                    if (AppConfig.getInstance().readStartImage() == null) {
+                        subscriber.onError(new IllegalStateException("no start image cached"));
+                    } else {
+                        subscriber.onNext(AppConfig.getInstance().readStartImage());
+                    }
+                }
+            }).subscribe(mStartImageSubscriber);
+        } else {
+            int width = getResources().getDisplayMetrics().widthPixels;
+            String size;
+            if (width < 320) {
+                size = "320*432";
+            } else if (width < 480) {
+                size = "480*728";
+            } else if (width < 720) {
+                size = "720*1184";
+            } else {
+                size = "1080*1776";
+            }
+
+            DialyService service = ServiceCreator.getInstance().createService();
+            mSubscription = service.getStartImage(size)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mStartImageSubscriber);
+        }
     }
 
     private final Subscriber<StartImage> mStartImageSubscriber = new DefaultSubscriber<StartImage>() {
         @Override
         protected void onSuccess(StartImage result) {
+            if (result == null) {
+                onError(new IllegalStateException("No Image Found"));
+                return;
+            }
             mSimpleDraweeView.setImageURI(Uri.parse(result.getImg()));
             mTextView.setText(result.getText());
+            AppConfig.getInstance().saveStartImage(result);
         }
 
         @Override
         public void onError(Throwable e) {
             Logger.e(TAG, e.getMessage());
+            Snackbar.make(mSimpleDraweeView, "Error when loading image",
+                    Snackbar.LENGTH_SHORT).show();
+        }
+    };
+
+    private final CountDownTimer mCountDownTimer = new CountDownTimer(3000, 100) {
+        @Override
+        public void onTick(long l) {
+            mTextViewTimer.setText(Long.toString(l / 100));
+        }
+
+        @Override
+        public void onFinish() {
+            Navigator.navigateToMainActivity(getActivity());
+            finish();
         }
     };
 

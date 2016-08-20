@@ -13,19 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.mvp.main;
+package io.lhyz.android.zhihu.dialy.util;
 
-import io.lhyz.android.zhihu.dialy.R;
-import io.lhyz.android.zhihu.dialy.mvp.BaseFragment;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import io.lhyz.android.zhihu.dialy.ZhihuDailyApp;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/20.
  */
-public class MainFragment extends BaseFragment {
+public class NetworkHelper {
+    public static boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                ZhihuDailyApp.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-    @Override
-    protected int getLayout() {
-        return R.layout.frag_main;
+        return networkInfo != null;
     }
 }

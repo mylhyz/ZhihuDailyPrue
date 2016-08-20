@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">ZhihuDialy</string>
 
-    <string name="init_author">© 孙冉然</string>
-    <string name="today_news">今日新闻</string>
-    <string name="share">Share</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
+
+    <string name="action_share">Share</string>
 </resources>

@@ -17,6 +17,7 @@
 package io.lhyz.android.zhihu.dialy;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -25,10 +26,18 @@ import io.fabric.sdk.android.Fabric;
 
 public class ZhihuDailyApp extends Application {
 
+    private static ZhihuDailyApp mApp;
+
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         Fresco.initialize(this);
+
+        mApp = this;
+    }
+
+    public static Context getAppContext() {
+        return mApp;
     }
 }
