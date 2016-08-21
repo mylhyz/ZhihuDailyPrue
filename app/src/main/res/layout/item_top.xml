@@ -4,12 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="144dp">
 
-    <ImageView
-        android:id="@+id/image"
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_big"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/app_name"
-        android:scaleType="centerCrop"/>
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/tv_title"

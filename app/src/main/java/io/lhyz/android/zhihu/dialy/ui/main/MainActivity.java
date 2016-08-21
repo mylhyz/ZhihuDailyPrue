@@ -78,8 +78,6 @@ public class MainActivity extends BaseActivity
         });
 
         mAdapter = new LatestAdapter();
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,
-//                getResources().getDisplayMetrics().density));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
