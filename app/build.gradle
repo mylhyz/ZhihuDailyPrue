@@ -23,10 +23,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    dexOptions {
-        javaMaxHeapSize "8g"
-    }
 }
 
 dependencies {
