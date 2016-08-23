@@ -15,9 +15,62 @@
  */
 package io.lhyz.android.zhihu.dialy.ui.detail;
 
+import io.lhyz.android.zhihu.dialy.Injections;
+import io.lhyz.android.zhihu.dialy.data.bean.New;
+import io.lhyz.android.zhihu.dialy.data.source.DataSource;
+import io.lhyz.android.zhihu.dialy.data.source.DialyRepository;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/19.
  */
-public class DetailPresenter {
+public class DetailPresenter implements DetailContract.Presenter {
+
+    DialyRepository mRepository;
+    DetailContract.View mView;
+
+    long id;
+
+    public DetailPresenter(DetailContract.View view, long id) {
+        mView = view;
+        mView.setPresenter(this);
+        this.id = id;
+
+        mRepository = Injections.provideRepository();
+    }
+
+    @Override
+    public void loadNewContent() {
+        mRepository.loadNewContent(id, new DataSource.LoadNewCallback() {
+            @Override
+            public void onNewLoaded(New content) {
+                if (content == null) {
+                    onNoNewAvailable();
+                    return;
+                }
+                mView.showContent(content);
+            }
+
+            @Override
+            public void onNoNewAvailable() {
+
+            }
+        });
+    }
+
+    @Override
+    public void start() {
+        loadNewContent();
+    }
+
+    @Override
+    public void pause() {
+        mRepository.cancel();
+    }
+
+    @Override
+    public void destroy() {
+        mRepository.cancel();
+        mView = null;
+    }
 }

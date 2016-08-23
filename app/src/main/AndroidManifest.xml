@@ -28,6 +28,10 @@
             android:name=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0aa57e33a3f18af76e3256128cae61c33d964541"/>

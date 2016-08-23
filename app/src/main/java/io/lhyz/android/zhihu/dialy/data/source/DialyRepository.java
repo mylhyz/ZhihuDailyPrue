@@ -16,6 +16,7 @@
 package io.lhyz.android.zhihu.dialy.data.source;
 
 import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.data.bean.New;
 
 /**
  * hello,android
@@ -45,6 +46,21 @@ public class DialyRepository implements DataSource {
             @Override
             public void onNoLatestAvailable() {
                 callback.onNoLatestAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void loadNewContent(long id, final LoadNewCallback callback) {
+        mRemoteDataSource.loadNewContent(id, new LoadNewCallback() {
+            @Override
+            public void onNewLoaded(New content) {
+                callback.onNewLoaded(content);
+            }
+
+            @Override
+            public void onNoNewAvailable() {
+                callback.onNoNewAvailable();
             }
         });
     }

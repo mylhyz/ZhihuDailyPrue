@@ -16,6 +16,7 @@
 package io.lhyz.android.zhihu.dialy.data.source;
 
 import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.data.bean.New;
 import io.lhyz.android.zhihu.dialy.data.bean.StartImage;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -34,4 +35,8 @@ public interface DialyService {
 
     @GET("news/latest")
     Observable<Latest> getLatest();
+
+    @GET("news/{id}")
+    Observable<New> getContents(@Path("id") String id);
+
 }

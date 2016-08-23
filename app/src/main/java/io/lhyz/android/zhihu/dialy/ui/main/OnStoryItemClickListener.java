@@ -13,26 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.zhihu.dialy.ui.detail;
+package io.lhyz.android.zhihu.dialy.ui.main;
 
-import io.lhyz.android.zhihu.dialy.base.BasePresenter;
-import io.lhyz.android.zhihu.dialy.base.BaseView;
-import io.lhyz.android.zhihu.dialy.data.bean.New;
+import io.lhyz.android.zhihu.dialy.data.bean.Story;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/23.
  */
-public class DetailContract {
-    interface Presenter extends BasePresenter {
-        void loadNewContent();
-    }
-
-    interface View extends BaseView<Presenter> {
-        void showContent(final New detail);
-
-        void showShareDialog();
-
-        void hideShareDialog();
-    }
+public interface OnStoryItemClickListener {
+    void onStoryClick(Story story);
 }

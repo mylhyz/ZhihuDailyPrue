@@ -47,7 +47,13 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     List<Story> mStories;
     List<Story> mTopStories;
 
+    private OnStoryItemClickListener mOnStoryItemClickListener;
+
     public LatestAdapter() {
+    }
+
+    public void setOnStoryItemClickListener(OnStoryItemClickListener onStoryItemClickListener) {
+        mOnStoryItemClickListener = onStoryItemClickListener;
     }
 
     public void setStoryList(Latest latest) {
@@ -72,11 +78,13 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static class NormalViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
         SimpleDraweeView mSimpleDraweeView;
+        View itemView;
 
         public NormalViewHolder(View itemView) {
             super(itemView);
             mTextView = (TextView) itemView.findViewById(R.id.tv_title);
             mSimpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.img_icon);
+            this.itemView = itemView;
         }
     }
 
@@ -120,6 +128,7 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             final CarouselViewHolder carouselViewHolder = (CarouselViewHolder) holder;
             final ViewPager viewPager = carouselViewHolder.mViewPager;
             final TopAdapter adapter = new TopAdapter(topStories);
+            adapter.setOnStoryItemClickListener(mOnStoryItemClickListener);
             viewPager.setOffscreenPageLimit(5);
             viewPager.setAdapter(adapter);
 
@@ -147,7 +156,6 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             };
             timer.start();
-
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -171,10 +179,15 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-
         } else if (type == TYPE_HEADER) {
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             final Story story = mStories.get(0);
+            headerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnStoryItemClickListener.onStoryClick(story);
+                }
+            });
             headerViewHolder.mHeader.setText("今日新闻");
             headerViewHolder.mTextView.setText(story.getTitle());
             final String imageURL = story.getImages().get(0);
@@ -184,6 +197,12 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             final NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
             final Story story = mStories.get(holder.getAdapterPosition() - 1);
+            normalViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnStoryItemClickListener.onStoryClick(story);
+                }
+            });
             normalViewHolder.mTextView.setText(story.getTitle());
             final String imageURL = story.getImages().get(0);
             if (imageURL != null) {

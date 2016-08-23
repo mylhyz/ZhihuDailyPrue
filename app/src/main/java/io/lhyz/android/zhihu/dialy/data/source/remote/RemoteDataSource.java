@@ -17,6 +17,7 @@ package io.lhyz.android.zhihu.dialy.data.source.remote;
 
 import io.lhyz.android.zhihu.dialy.base.DefaultSubscriber;
 import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.data.bean.New;
 import io.lhyz.android.zhihu.dialy.data.source.DataSource;
 import io.lhyz.android.zhihu.dialy.data.source.DialyService;
 import io.lhyz.android.zhihu.dialy.data.source.ServiceCreator;
@@ -76,6 +77,29 @@ public class RemoteDataSource implements DataSource {
                     @Override
                     public void onError(Throwable e) {
                         callback.onNoLatestAvailable();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void loadNewContent(long id, final LoadNewCallback callback) {
+        Subscription subscription = mDialyService.getContents(Long.toString(id))
+                .subscribeOn(Schedulers.from(mThreadExecutor))
+                .observeOn(mPostThreadExecutor.getScheduler())
+                .subscribe(new DefaultSubscriber<New>() {
+                    @Override
+                    protected void onSuccess(New result) {
+                        if (result == null) {
+                            callback.onNoNewAvailable();
+                            return;
+                        }
+                        callback.onNewLoaded(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onNoNewAvailable();
                     }
                 });
         mCompositeSubscription.add(subscription);

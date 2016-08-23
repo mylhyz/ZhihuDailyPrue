@@ -16,6 +16,7 @@
 package io.lhyz.android.zhihu.dialy.data.source;
 
 import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.data.bean.New;
 
 /**
  * hello,android
@@ -28,7 +29,15 @@ public interface DataSource {
         void onNoLatestAvailable();
     }
 
+    interface LoadNewCallback {
+        void onNewLoaded(New content);
+
+        void onNoNewAvailable();
+    }
+
     void loadLatest(LoadLatestCallback callback);
+
+    void loadNewContent(long id,LoadNewCallback callback);
 
     void cancel();
 }

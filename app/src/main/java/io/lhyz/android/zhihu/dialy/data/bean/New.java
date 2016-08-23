@@ -37,4 +37,53 @@ public class New {
     @SerializedName("css")
     List<String> cssURL;
 
+    public New(String body, String imageSource, String title, String image,
+               String shareURL, List<Avatar> recommenders, int type, long id,
+               List<String> cssURL) {
+        this.body = body;
+        this.imageSource = imageSource;
+        this.title = title;
+        this.image = image;
+        this.shareURL = shareURL;
+        this.recommenders = recommenders;
+        this.type = type;
+        this.id = id;
+        this.cssURL = cssURL;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public String getImageSource() {
+        return imageSource;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getShareURL() {
+        return shareURL;
+    }
+
+    public List<Avatar> getRecommenders() {
+        return recommenders;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public List<String> getCssURL() {
+        return cssURL;
+    }
 }

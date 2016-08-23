@@ -48,11 +48,20 @@ public class TopAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        final Story story = mStories.get(position);
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_top, container, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnStoryItemClickListener != null) {
+                    mOnStoryItemClickListener.onStoryClick(story);
+                }
+            }
+        });
         SimpleDraweeView simpleDraweeView = (SimpleDraweeView) view.findViewById(R.id.img_big);
         TextView textView = (TextView) view.findViewById(R.id.tv_title);
-        simpleDraweeView.setImageURI(Uri.parse(mStories.get(position).getImage()));
-        textView.setText(mStories.get(position).getTitle());
+        simpleDraweeView.setImageURI(Uri.parse(story.getImage()));
+        textView.setText(story.getTitle());
         container.addView(view);
         return view;
     }
@@ -66,4 +75,10 @@ public class TopAdapter extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return object == view;
     }
+
+    public void setOnStoryItemClickListener(OnStoryItemClickListener onStoryItemClickListener) {
+        mOnStoryItemClickListener = onStoryItemClickListener;
+    }
+
+    private OnStoryItemClickListener mOnStoryItemClickListener;
 }

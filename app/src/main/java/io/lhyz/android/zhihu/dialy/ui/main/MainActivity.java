@@ -28,8 +28,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import butterknife.BindView;
+import io.lhyz.android.zhihu.dialy.Navigator;
 import io.lhyz.android.zhihu.dialy.R;
 import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.data.bean.Story;
 import io.lhyz.android.zhihu.dialy.ui.BaseActivity;
 
 /**
@@ -38,7 +40,8 @@ import io.lhyz.android.zhihu.dialy.ui.BaseActivity;
  */
 public class MainActivity extends BaseActivity
         implements MainContract.View
-        , NavigationView.OnNavigationItemSelectedListener {
+        , NavigationView.OnNavigationItemSelectedListener,
+        OnStoryItemClickListener {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.drawer_layout)
@@ -78,6 +81,7 @@ public class MainActivity extends BaseActivity
         });
 
         mAdapter = new LatestAdapter();
+        mAdapter.setOnStoryItemClickListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -131,5 +135,10 @@ public class MainActivity extends BaseActivity
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
 
+    }
+
+    @Override
+    public void onStoryClick(Story story) {
+        Navigator.navigateToDetailActivity(this, story.getId());
     }
 }

@@ -40,6 +40,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void loadNewContent(long id, LoadNewCallback callback) {
+
+    }
+
+    @Override
     public void cancel() {
 
     }
