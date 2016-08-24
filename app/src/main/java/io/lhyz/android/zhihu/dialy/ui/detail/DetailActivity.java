@@ -20,12 +20,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
 import io.lhyz.android.zhihu.dialy.R;
@@ -46,7 +49,7 @@ public class DetailActivity extends BaseActivity
     @BindView(R.id.tv_title)
     TextView mTextView;
     @BindView(R.id.web_content)
-    TextView mWebView;
+    WebView mWebView;
 
     long storyId;
 
@@ -82,8 +85,11 @@ public class DetailActivity extends BaseActivity
     public void showContent(New detail) {
         mSimpleDraweeView.setImageURI(Uri.parse(detail.getImage()));
         mTextView.setText(detail.getTitle());
-        mWebView.setText(Html.fromHtml(getHtmlData(detail.getCssURL().get(0),
-                detail.getBody())));
+        mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        mWebView.setVerticalScrollBarEnabled(false);
+        mWebView.setHorizontalScrollBarEnabled(false);
+        mWebView.loadData(getHtmlData(detail.getCssURL().get(0),
+                detail.getBody()), "text/html; charset=UTF-8", null);
     }
 
     @Override
@@ -105,7 +111,13 @@ public class DetailActivity extends BaseActivity
         String head = "<head>" +
                 "<link href=\"" + cssUrl + "\" rel=\"stylesheet\">" +
                 "</head>";
-        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
+        String html = "<html>" + head + "<body>" + bodyHTML + "</body></html>";
+        try {
+            html = new String(html.getBytes(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return html;
     }
 
     @Override

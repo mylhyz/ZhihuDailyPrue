@@ -15,16 +15,21 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            tools:ignore="WebViewLayout">
+
+            <WebView
+                android:id="@+id/web_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <FrameLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/img_content"
                 android:layout_width="match_parent"
-                android:layout_height="196dp">
+                android:layout_height="200dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/img_big"
@@ -42,14 +47,7 @@
                     android:textSize="20sp"/>
 
             </FrameLayout>
-
-            <TextView
-                android:id="@+id/web_content"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:padding="16dp"/>
-        </LinearLayout>
+        </FrameLayout>
     </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
