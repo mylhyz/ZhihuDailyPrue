@@ -15,11 +15,13 @@
  */
 package io.lhyz.android.zhihu.dialy.ui.detail;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -50,6 +52,8 @@ public class DetailActivity extends BaseActivity
     TextView mTextView;
     @BindView(R.id.web_content)
     WebView mWebView;
+
+    String mShareURL;
 
     long storyId;
 
@@ -90,6 +94,8 @@ public class DetailActivity extends BaseActivity
         mWebView.setHorizontalScrollBarEnabled(false);
         mWebView.loadData(getHtmlData(detail.getCssURL().get(0),
                 detail.getBody()), "text/html; charset=UTF-8", null);
+
+        mShareURL = detail.getShareURL();
     }
 
     @Override
@@ -131,6 +137,16 @@ public class DetailActivity extends BaseActivity
         if (item.getItemId() == android.R.id.home) {
             super.onBackPressed();
             return true;
+        }
+
+        if (item.getItemId() == R.id.menu_share) {
+            if (!TextUtils.isEmpty(mShareURL)) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, mShareURL);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
