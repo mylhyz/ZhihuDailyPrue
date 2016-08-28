@@ -86,6 +86,8 @@ public class MainActivity extends BaseActivity
         mRecyclerView.setAdapter(mAdapter);
 
         mPresenter = new MainPresenter(this);
+
+        mPresenter.loadLatest();
     }
 
     @Override

@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -33,6 +34,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
+import io.lhyz.android.zhihu.dialy.Navigator;
 import io.lhyz.android.zhihu.dialy.R;
 import io.lhyz.android.zhihu.dialy.data.bean.New;
 import io.lhyz.android.zhihu.dialy.ui.BaseActivity;
@@ -71,12 +73,41 @@ public class DetailActivity extends BaseActivity
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mPresenter.loadNewContent();
+
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (!url.contains("www.zhihu.com")) {
+                    Navigator.navigateToNestedBrowser(getActivity(), url);
+                    return true;
+                }
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                return true;
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mPresenter.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     @Override
@@ -96,16 +127,6 @@ public class DetailActivity extends BaseActivity
                 detail.getBody()), "text/html; charset=UTF-8", null);
 
         mShareURL = detail.getShareURL();
-    }
-
-    @Override
-    public void showShareDialog() {
-
-    }
-
-    @Override
-    public void hideShareDialog() {
-
     }
 
     @Override

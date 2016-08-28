@@ -30,9 +30,5 @@ public class DetailContract {
 
     interface View extends BaseView<Presenter> {
         void showContent(final New detail);
-
-        void showShareDialog();
-
-        void hideShareDialog();
     }
 }

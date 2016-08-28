@@ -18,6 +18,7 @@ package io.lhyz.android.zhihu.dialy;
 import android.content.Context;
 import android.content.Intent;
 
+import io.lhyz.android.zhihu.dialy.ui.browser.NestedBrowser;
 import io.lhyz.android.zhihu.dialy.ui.detail.DetailActivity;
 import io.lhyz.android.zhihu.dialy.ui.main.MainActivity;
 
@@ -39,6 +40,15 @@ public class Navigator {
         }
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(DetailActivity.EXTRA_STORY_ID, id);
+        context.startActivity(intent);
+    }
+
+    public static void navigateToNestedBrowser(Context context, String url) {
+        if (context == null) {
+            return;
+        }
+        Intent intent = new Intent(context, NestedBrowser.class);
+        intent.putExtra(NestedBrowser.EXTRA_URL, url);
         context.startActivity(intent);
     }
 }

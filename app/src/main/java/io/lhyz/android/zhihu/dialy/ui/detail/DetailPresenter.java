@@ -60,7 +60,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void start() {
-        loadNewContent();
+
     }
 
     @Override
