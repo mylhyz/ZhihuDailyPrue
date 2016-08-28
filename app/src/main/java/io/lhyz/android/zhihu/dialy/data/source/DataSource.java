@@ -37,7 +37,9 @@ public interface DataSource {
 
     void loadLatest(LoadLatestCallback callback);
 
-    void loadNewContent(long id,LoadNewCallback callback);
+    void loadNewContent(long id, LoadNewCallback callback);
+
+    void saveLatest(Latest latest);
 
     void cancel();
 }

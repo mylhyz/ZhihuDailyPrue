@@ -99,10 +99,16 @@ public class RemoteDataSource implements DataSource {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         callback.onNoNewAvailable();
                     }
                 });
         mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void saveLatest(Latest latest) {
+        //Ignore
     }
 
     @Override

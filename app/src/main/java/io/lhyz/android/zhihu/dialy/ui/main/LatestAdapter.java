@@ -31,7 +31,8 @@ import java.util.List;
 
 import io.lhyz.android.zhihu.dialy.R;
 import io.lhyz.android.zhihu.dialy.data.bean.Latest;
-import io.lhyz.android.zhihu.dialy.data.bean.Story;
+import io.lhyz.android.zhihu.dialy.data.bean.Normal;
+import io.lhyz.android.zhihu.dialy.data.bean.Top;
 
 /**
  * hello,android
@@ -44,8 +45,8 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int TYPE_HEADER = 729;
 
     Latest mLatest;
-    List<Story> mStories;
-    List<Story> mTopStories;
+    List<Normal> mStories;
+    List<Top> mTopStories;
 
     private OnStoryItemClickListener mOnStoryItemClickListener;
 
@@ -124,7 +125,7 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int type = getItemViewType(holder.getAdapterPosition());
         if (type == TYPE_TOP) {
-            final List<Story> topStories = mTopStories;
+            final List<Top> topStories = mTopStories;
             final CarouselViewHolder carouselViewHolder = (CarouselViewHolder) holder;
             final ViewPager viewPager = carouselViewHolder.mViewPager;
             final TopAdapter adapter = new TopAdapter(topStories);
@@ -181,11 +182,11 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (type == TYPE_HEADER) {
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            final Story story = mStories.get(0);
+            final Normal story = mStories.get(0);
             headerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mOnStoryItemClickListener.onStoryClick(story);
+                    mOnStoryItemClickListener.onNormalClick(story);
                 }
             });
             headerViewHolder.mHeader.setText("今日新闻");
@@ -196,11 +197,11 @@ public class LatestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         } else {
             final NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
-            final Story story = mStories.get(holder.getAdapterPosition() - 1);
+            final Normal story = mStories.get(holder.getAdapterPosition() - 1);
             normalViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mOnStoryItemClickListener.onStoryClick(story);
+                    mOnStoryItemClickListener.onNormalClick(story);
                 }
             });
             normalViewHolder.mTextView.setText(story.getTitle());

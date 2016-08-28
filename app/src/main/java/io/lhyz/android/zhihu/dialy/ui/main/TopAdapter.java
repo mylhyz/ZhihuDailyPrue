@@ -27,7 +27,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 import io.lhyz.android.zhihu.dialy.R;
-import io.lhyz.android.zhihu.dialy.data.bean.Story;
+import io.lhyz.android.zhihu.dialy.data.bean.Top;
 
 /**
  * hello,android
@@ -35,9 +35,9 @@ import io.lhyz.android.zhihu.dialy.data.bean.Story;
  */
 public class TopAdapter extends PagerAdapter {
 
-    List<Story> mStories;
+    List<Top> mStories;
 
-    public TopAdapter(List<Story> stories) {
+    public TopAdapter(List<Top> stories) {
         mStories = stories;
     }
 
@@ -48,13 +48,13 @@ public class TopAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        final Story story = mStories.get(position);
+        final Top story = mStories.get(position);
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_top, container, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mOnStoryItemClickListener != null) {
-                    mOnStoryItemClickListener.onStoryClick(story);
+                    mOnStoryItemClickListener.onTopClick(story);
                 }
             }
         });

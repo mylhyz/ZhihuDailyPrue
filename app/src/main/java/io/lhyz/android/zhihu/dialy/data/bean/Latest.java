@@ -25,25 +25,19 @@ import java.util.List;
  */
 public class Latest {
     String date;
-    List<Story> stories;
+    List<Normal> stories;
     @SerializedName("top_stories")
-    List<Story> topStories;
-
-    public Latest(String date, List<Story> stories, List<Story> topStories) {
-        this.date = date;
-        this.stories = stories;
-        this.topStories = topStories;
-    }
+    List<Top> topStories;
 
     public String getDate() {
         return date;
     }
 
-    public List<Story> getStories() {
+    public List<Normal> getStories() {
         return stories;
     }
 
-    public List<Story> getTopStories() {
+    public List<Top> getTopStories() {
         return topStories;
     }
 }

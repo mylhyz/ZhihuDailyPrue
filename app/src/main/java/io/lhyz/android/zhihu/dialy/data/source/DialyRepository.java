@@ -26,7 +26,6 @@ public class DialyRepository implements DataSource {
 
 
     DataSource mLocalDataSource;
-
     DataSource mRemoteDataSource;
 
     public DialyRepository(DataSource localDataSource,
@@ -41,6 +40,7 @@ public class DialyRepository implements DataSource {
             @Override
             public void onLatestLoaded(Latest result) {
                 callback.onLatestLoaded(result);
+                mLocalDataSource.saveLatest(result);
             }
 
             @Override
@@ -63,6 +63,11 @@ public class DialyRepository implements DataSource {
                 callback.onNoNewAvailable();
             }
         });
+    }
+
+    @Override
+    public void saveLatest(Latest latest) {
+        //Ignore
     }
 
     @Override

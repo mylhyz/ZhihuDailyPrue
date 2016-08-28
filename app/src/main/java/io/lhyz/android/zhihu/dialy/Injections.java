@@ -25,7 +25,7 @@ import io.lhyz.android.zhihu.dialy.data.source.remote.RemoteDataSource;
  */
 public class Injections {
     public static DialyRepository provideRepository() {
-        return new DialyRepository(LocalDataSource.getInstance(),
+        return new DialyRepository(LocalDataSource.getInstance(ZhihuDailyApp.getAppContext()),
                 RemoteDataSource.getInstance());
     }
 }

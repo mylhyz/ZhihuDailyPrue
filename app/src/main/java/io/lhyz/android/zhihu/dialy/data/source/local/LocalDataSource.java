@@ -15,6 +15,16 @@
  */
 package io.lhyz.android.zhihu.dialy.data.source.local;
 
+import android.content.Context;
+
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import io.lhyz.android.zhihu.dialy.data.bean.Latest;
+import io.lhyz.android.zhihu.dialy.data.bean.Normal;
+import io.lhyz.android.zhihu.dialy.data.bean.Top;
 import io.lhyz.android.zhihu.dialy.data.source.DataSource;
 
 /**
@@ -23,15 +33,26 @@ import io.lhyz.android.zhihu.dialy.data.source.DataSource;
  */
 public class LocalDataSource implements DataSource {
 
-    private static class Holder {
-        private static final LocalDataSource instance = new LocalDataSource();
+    private static volatile LocalDataSource INSTANCE;
+
+    public static LocalDataSource getInstance(Context context) {
+        if (INSTANCE == null) {
+            synchronized (LocalDataSource.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new LocalDataSource(context);
+                }
+            }
+        }
+        return INSTANCE;
     }
 
-    public static LocalDataSource getInstance() {
-        return Holder.instance;
-    }
+    Dao<Normal, Long> mNormalLongDao;
+    Dao<Top, Long> mTopLongDao;
 
-    private LocalDataSource() {
+
+    private LocalDataSource(Context context) {
+        mNormalLongDao = new NormalDBHelper(context).getDao();
+        mTopLongDao = new TopDBHelper(context).getDao();
     }
 
     @Override
@@ -42,6 +63,27 @@ public class LocalDataSource implements DataSource {
     @Override
     public void loadNewContent(long id, LoadNewCallback callback) {
 
+    }
+
+    @Override
+    public void saveLatest(Latest latest) {
+        try {
+            List<Normal> normalList = latest.getStories();
+            for (Normal normal : normalList) {
+                normal.setDate(latest.getDate());
+                if (normal.getImages() != null) {
+                    normal.setImage(normal.getImages().get(0));
+                }
+                mNormalLongDao.createOrUpdate(normal);
+            }
+            List<Top> topList = latest.getTopStories();
+            for (Top top : topList) {
+                top.setDate(latest.getDate());
+                mTopLongDao.createOrUpdate(top);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

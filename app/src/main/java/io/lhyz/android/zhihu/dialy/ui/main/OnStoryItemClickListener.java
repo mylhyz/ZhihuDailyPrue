@@ -15,12 +15,19 @@
  */
 package io.lhyz.android.zhihu.dialy.ui.main;
 
-import io.lhyz.android.zhihu.dialy.data.bean.Story;
+import io.lhyz.android.zhihu.dialy.data.bean.Normal;
+import io.lhyz.android.zhihu.dialy.data.bean.Top;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/23.
  */
-public interface OnStoryItemClickListener {
-    void onStoryClick(Story story);
+public abstract class OnStoryItemClickListener {
+    void onNormalClick(Normal story) {
+
+    }
+
+    void onTopClick(Top top) {
+
+    }
 }

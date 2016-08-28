@@ -31,7 +31,8 @@ import butterknife.BindView;
 import io.lhyz.android.zhihu.dialy.Navigator;
 import io.lhyz.android.zhihu.dialy.R;
 import io.lhyz.android.zhihu.dialy.data.bean.Latest;
-import io.lhyz.android.zhihu.dialy.data.bean.Story;
+import io.lhyz.android.zhihu.dialy.data.bean.Normal;
+import io.lhyz.android.zhihu.dialy.data.bean.Top;
 import io.lhyz.android.zhihu.dialy.ui.BaseActivity;
 
 /**
@@ -40,8 +41,7 @@ import io.lhyz.android.zhihu.dialy.ui.BaseActivity;
  */
 public class MainActivity extends BaseActivity
         implements MainContract.View
-        , NavigationView.OnNavigationItemSelectedListener,
-        OnStoryItemClickListener {
+        , NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.drawer_layout)
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity
         });
 
         mAdapter = new LatestAdapter();
-        mAdapter.setOnStoryItemClickListener(this);
+        mAdapter.setOnStoryItemClickListener(mOnStoryItemClickListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -137,8 +137,16 @@ public class MainActivity extends BaseActivity
 
     }
 
-    @Override
-    public void onStoryClick(Story story) {
-        Navigator.navigateToDetailActivity(this, story.getId());
-    }
+    private final OnStoryItemClickListener mOnStoryItemClickListener =
+            new OnStoryItemClickListener() {
+                @Override
+                void onNormalClick(Normal story) {
+                    Navigator.navigateToDetailActivity(getActivity(), story.getId());
+                }
+
+                @Override
+                void onTopClick(Top top) {
+                    Navigator.navigateToDetailActivity(getActivity(), top.getId());
+                }
+            };
 }

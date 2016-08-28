@@ -15,46 +15,64 @@
  */
 package io.lhyz.android.zhihu.dialy.data.bean;
 
-import java.util.List;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/19.
+ * Created by lhyz on 2016/8/28.
  */
-public class Story {
+@DatabaseTable(tableName = "top")
+public class Top {
+    @DatabaseField
     String title;
-    //For Normal Story
-    List<String> images;
-    //For TopStory
+    @DatabaseField
     String image;
+    @DatabaseField
     int type;
+    @DatabaseField(id = true)
     long id;
 
-    public Story(String title, List<String> images, String image, int type, long id) {
-        this.title = title;
-        this.images = images;
-        this.image = image;
-        this.type = type;
-        this.id = id;
-    }
+    @DatabaseField
+    String date;
 
     public String getTitle() {
         return title;
     }
 
-    public List<String> getImages() {
-        return images;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getImage() {
         return image;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public int getType() {
         return type;
     }
 
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
