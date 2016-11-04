@@ -17,14 +17,7 @@ package io.lhyz.android.zhihu.daily.data.source.local;
 
 import android.content.Context;
 
-import com.j256.ormlite.dao.Dao;
-
-import java.sql.SQLException;
-import java.util.List;
-
 import io.lhyz.android.zhihu.daily.data.bean.Latest;
-import io.lhyz.android.zhihu.daily.data.bean.Normal;
-import io.lhyz.android.zhihu.daily.data.bean.Top;
 import io.lhyz.android.zhihu.daily.data.source.DataSource;
 
 
@@ -47,13 +40,8 @@ public class LocalDataSource implements DataSource {
         return INSTANCE;
     }
 
-    Dao<Normal, Long> mNormalLongDao;
-    Dao<Top, Long> mTopLongDao;
-
-
     private LocalDataSource(Context context) {
-        mNormalLongDao = new NormalDBHelper(context).getDao();
-        mTopLongDao = new TopDBHelper(context).getDao();
+
     }
 
     @Override
@@ -68,23 +56,7 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void saveLatest(Latest latest) {
-        try {
-            List<Normal> normalList = latest.getStories();
-            for (Normal normal : normalList) {
-                normal.setDate(latest.getDate());
-                if (normal.getImages() != null) {
-                    normal.setImage(normal.getImages().get(0));
-                }
-                mNormalLongDao.createOrUpdate(normal);
-            }
-            List<Top> topList = latest.getTopStories();
-            for (Top top : topList) {
-                top.setDate(latest.getDate());
-                mTopLongDao.createOrUpdate(top);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

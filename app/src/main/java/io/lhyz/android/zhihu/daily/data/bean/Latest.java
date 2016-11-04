@@ -24,10 +24,10 @@ import java.util.List;
  * Created by lhyz on 2016/8/19.
  */
 public class Latest {
-    String date;
-    List<Normal> stories;
+    private String date;
+    private List<Normal> stories;
     @SerializedName("top_stories")
-    List<Top> topStories;
+    private List<Top> topStories;
 
     public String getDate() {
         return date;

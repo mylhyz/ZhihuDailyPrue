@@ -15,26 +15,16 @@
  */
 package io.lhyz.android.zhihu.daily.data.bean;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-
 /**
  * hello,android
  * Created by lhyz on 2016/8/28.
  */
-@DatabaseTable(tableName = "top")
 public class Top {
-    @DatabaseField
-    String title;
-    @DatabaseField
-    String image;
-    @DatabaseField
-    int type;
-    @DatabaseField(id = true)
-    long id;
-
-    @DatabaseField
-    String date;
+    private String title;
+    private String image;
+    private int type;
+    private long id;
+    private String date;
 
     public String getTitle() {
         return title;

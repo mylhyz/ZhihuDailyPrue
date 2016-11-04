@@ -24,17 +24,20 @@ import java.util.List;
  * Created by lhyz on 2016/8/19.
  */
 public class New {
-    String body;
+    private String body;
     @SerializedName("image_source")
+    private
     String imageSource;
-    String title;
-    String image;
+    private String title;
+    private String image;
     @SerializedName("share_url")
+    private
     String shareURL;
-    List<Avatar> recommenders;
-    int type;
-    long id;
+    private List<Avatar> recommenders;
+    private int type;
+    private long id;
     @SerializedName("css")
+    private
     List<String> cssURL;
 
     public New(String body, String imageSource, String title, String image,

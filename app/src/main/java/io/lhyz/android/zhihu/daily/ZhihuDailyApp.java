@@ -22,6 +22,8 @@ import android.content.Context;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import timber.log.Timber;
+
 public class ZhihuDailyApp extends Application {
 
     private static ZhihuDailyApp mApp;
@@ -29,6 +31,7 @@ public class ZhihuDailyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Timber.plant(new Timber.DebugTree());
         Fresco.initialize(this);
         CrashReport.initCrashReport(getApplicationContext(), "8712cf3fff", false);
         mApp = this;

@@ -25,7 +25,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import io.lhyz.android.zhihu.daily.base.DefaultSubscriber;
@@ -40,6 +39,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * hello,android
@@ -53,8 +53,6 @@ public class AppStart extends BaseActivity {
     SimpleDraweeView mSimpleDraweeView;
     @BindView(R.id.tv_author)
     TextView mTextView;
-    @BindView(R.id.tv_timer)
-    TextView mTextViewTimer;
 
     Subscription mSubscription;
 
@@ -110,7 +108,7 @@ public class AppStart extends BaseActivity {
 
         @Override
         public void onError(Throwable e) {
-            Logger.e(TAG, e.getMessage());
+            Timber.e(e.getMessage());
             Snackbar.make(mSimpleDraweeView, "Error when loading image",
                     Snackbar.LENGTH_SHORT).show();
         }
@@ -119,7 +117,7 @@ public class AppStart extends BaseActivity {
     private final CountDownTimer mCountDownTimer = new CountDownTimer(3000, 100) {
         @Override
         public void onTick(long l) {
-            mTextViewTimer.setText(Long.toString(l / 100));
+            //ignore
         }
 
         @Override

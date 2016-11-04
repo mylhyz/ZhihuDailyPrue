@@ -20,8 +20,8 @@ package io.lhyz.android.zhihu.daily.data.bean;
  * Created by lhyz on 2016/8/19.
  */
 public class StartImage {
-    String text;
-    String img;
+    private String text;
+    private String img;
 
     public StartImage(String text, String img) {
         this.text = text;

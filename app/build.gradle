@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        applicationId "io.lhyz.android.zhihu.dialy"
+        applicationId "io.lhyz.android.zhihu.daily"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
@@ -13,7 +13,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,13 +54,8 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     //GIF
     compile 'com.facebook.fresco:fresco:0.12.0'
-    //Google Guava
-    compile 'com.google.guava:guava:19.0'
-    //Database ORM
-    compile 'com.j256.ormlite:ormlite-core:5.0'
-    compile 'com.j256.ormlite:ormlite-android:5.0'
     //Log Support
-    compile 'com.orhanobut:logger:1.15'
+    compile 'com.jakewharton.timber:timber:4.3.1'
     //bugly
     compile 'com.tencent.bugly:crashreport:2.3.0'
 }

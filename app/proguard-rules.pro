@@ -40,15 +40,6 @@
 -dontwarn javax.annotation.**
 -dontwarn com.android.volley.toolbox.**
 
-# Guava
--dontoptimize
--dontobfuscate
--dontwarn sun.misc.Unsafe
--dontwarn com.google.common.collect.MinMaxPriorityQueue
-
--keepclasseswithmembers public class * {
-    public static void main(java.lang.String[]);
-}
 
 # Retrofit2
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
@@ -61,3 +52,5 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+
+-dontwarn retrofit2.adapter.rxjava.*
