@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="io.lhyz.android.zhihu.dialy">
+          package="io.lhyz.android.zhihu.daily">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
         android:name=".ZhihuDailyApp"
@@ -36,9 +39,6 @@
             android:name=".ui.browser.NestedBrowser"
             android:theme="@style/Theme.AppCompat.Light"/>
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="0aa57e33a3f18af76e3256128cae61c33d964541"/>
     </application>
 
 </manifest>
